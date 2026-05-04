@@ -1,2 +1,5 @@
 <Solution>
+  <Folder Name="/src/">
+    <Project Path="src/OrderManagement.Domain/OrderManagement.Domain.csproj" />
+  </Folder>
 </Solution>
