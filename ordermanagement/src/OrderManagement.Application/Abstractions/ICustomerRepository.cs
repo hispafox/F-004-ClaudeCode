@@ -1,0 +1,8 @@
+using OrderManagement.Domain.Entities;
+
+namespace OrderManagement.Application.Abstractions;
+
+public interface ICustomerRepository
+{
+    Task<Customer?> GetByIdAsync(int id, CancellationToken ct);
+}
