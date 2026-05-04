@@ -1,0 +1,10 @@
+@use 'styles/tokens';
+
+html, body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background: var(--color-surface-muted);
+}
