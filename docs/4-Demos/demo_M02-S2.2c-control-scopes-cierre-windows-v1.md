@@ -224,7 +224,7 @@ git checkout -b demo/2.2c-after
 
 ## Tarea 2: crear el skill destructivo `db-reset`
 
-Crea `.claude/skills/db-reset/SKILL.md` con:
+Crea `ordermanagement/.claude/skills/db-reset/SKILL.md` con:
 
 - Frontmatter:
   - `name: db-reset`
@@ -234,7 +234,7 @@ Crea `.claude/skills/db-reset/SKILL.md` con:
 
 ## Tarea 3: crear el skill `commit-style` (showcase de promoción personal → proyecto)
 
-Crea `.claude/skills/commit-style/SKILL.md` con:
+Crea `ordermanagement/.claude/skills/commit-style/SKILL.md` con:
 
 - Frontmatter:
   - `name: commit-style`
@@ -246,15 +246,16 @@ Crea `.claude/skills/commit-style/SKILL.md` con:
 Marca la 2.2c en `docs/DEMOS.md`:
 
 ```
-- [x] **demo/2.2c** — Control, scopes y cierre del bloque de creación
+- [x] **demo/2.2c-before / demo/2.2c-after** — Control, scopes y cierre del bloque de creación
 ```
 
 Añade al final de `docs/skills-explorados.md` una sección «### Decisiones operativas (2.2c)» con tres bullets que resuman: (1) cuándo usar `disable-model-invocation`, (2) la regla personal→proyecto para promover skills, (3) las 5 reglas técnicas críticas.
 
-Verifica con `dotnet build` (0 warnings, 0 errors) y commit:
+Verifica con `dotnet build` desde `ordermanagement/` (0 warnings, 0 errors) y commit desde la raíz del curso:
 
 ```powershell
-git add .claude/skills/db-reset .claude/skills/commit-style docs/DEMOS.md docs/skills-explorados.md
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/.claude/skills/db-reset ordermanagement/.claude/skills/commit-style docs/DEMOS.md docs/skills-explorados.md
 git commit -m "demo/2.2c-after: skills db-reset (disable-model-invocation) y commit-style (promovido a proyecto)"
 ```
 
