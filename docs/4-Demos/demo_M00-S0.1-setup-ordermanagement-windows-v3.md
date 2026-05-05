@@ -2,41 +2,40 @@
 
 > **Versión:** v3 | **Módulo:** 0 | **Sub:** 0.1 | **Estado:** ✅ Versión final
 > **Archivo:** `demo_M00-S0.1-setup-ordermanagement-windows-v3.md`
-> **Branch destino:** `demo/0.1` (mergeable a `main` al cerrar M0)
-> **Branch de partida:** repo `ordermanagement` recién inicializado (`git init`), `main` sin código
-> **Tipo:** Demo de referencia / setup — sin screencast pedagógico. **Excepción al patrón before/after** (ver [M0.2](demo_M00-S0.2-patron-before-after-windows-v3.md)): M0 es punto de origen del curso, rama única.
-> **Plataforma:** Windows (PowerShell 7 + Git for Windows + .NET 10 SDK + Node 22)
+> **Repo:** `F-004-ClaudeCode` (el repo del curso). El proyecto vive como **subcarpeta** `ordermanagement/` dentro del repo, **sin git anidado** y **compartiendo historia con la documentación del curso**.
+> **Rama:** los commits C1–C7 van **directamente a `main`** del repo del curso. M0 NO usa rama `demo/*` — es el setup base sobre el que se construye todo. Las ramas `demo/X.Y-before` / `demo/X.Y-after` aparecen a partir del Módulo 1.
+> **Tipo:** Demo de referencia / setup — sin screencast pedagógico. **Excepción al patrón before/after** (ver [M0.2](demo_M00-S0.2-patron-before-after-windows-v3.md)): M0 es punto de origen del curso.
+> **Plataforma:** Windows (PowerShell 7 + Git for Windows + .NET 10 SDK + Node 22 vía nvm)
 
 ---
 
 ## 1. Contexto
 
-Las 28 demos del curso de Claude Code asumen un proyecto demo `ordermanagement` (.NET 10 + Angular 19) como hilo conductor. Cada demo deja una rama nueva (`demo/X.Y`) que parte de la anterior y añade lo de su gamma.
+Las 28 secciones (M0–M5) del curso de Claude Code asumen un proyecto demo OrderManagement (.NET 10 + Angular 19) como hilo conductor. **El proyecto vive como subcarpeta `ordermanagement/` dentro del propio repo del curso `F-004-ClaudeCode`** — comparte git e historia con la documentación. No hay repo separado.
 
-Hasta aquí, **ese repo solo existía descrito en prosa** dentro de las demos M01–M03 (la descripción más completa está en el bloque «Estado del repo al empezar» de la 1.1, líneas 65–153, y se confirma cruzadamente en la 2.1a). Ninguna demo lo construía. La 1.1 lo declaraba explícitamente como *«trabajo previo»*.
+Hasta aquí, **el código del proyecto solo existía descrito en prosa** dentro de las demos M01–M03 (la descripción más completa está en el bloque «Estado del repo al empezar» de la 1.1, líneas 65–153, y se confirma cruzadamente en la 2.1a). Ninguna demo lo construía. La 1.1 lo declaraba explícitamente como *«trabajo previo»*.
 
-Esta demo M0 cubre ese hueco: documenta verbatim el proceso de construcción del repo desde cero hasta el estado que la 1.1 asume.
+Esta demo M0 cubre ese hueco: documenta verbatim el proceso de construcción del proyecto desde cero hasta el estado que la 1.1 asume.
 
 **Por qué no se graba como screencast:**
 
 - Es construcción de sustrato, no escenificación de un concepto del producto Claude Code. Pedagógicamente vacío para el alumno típico.
 - Si se grabara, anularía la frase clave del bloque 3 de la 1.1 (*«esta es la primera vez que arrancáis Claude Code»*) y obligaría a retocar la 1.1 ya aprobada.
-- A cambio, se distribuye con **commits granulares por capa** en `demo/0.1` para que el alumno avanzado pueda recorrer la construcción con `git log --oneline` o `git checkout` por commit.
+- A cambio, se distribuye con **commits granulares por capa directamente en `main`** para que el alumno avanzado pueda recorrer la construcción con `git log --oneline` o `git checkout <hash>` por commit.
 
-**Cómo encaja con la 1.1:**
+**Cómo encaja con la 1.1 y con el resto del curso:**
 
-- Al cerrar M0, `demo/0.1` se mergea a `main`. `main` queda con el repo completo en el estado de partida que la 1.1 espera.
-- La rama `demo/0.1` queda intacta como artefacto histórico (los siete commits granulares siguen siendo `git checkout`-ables).
-- La 1.1 conserva su línea *«Branch de partida: main»* sin ningún ajuste.
-- Las demás demos siguen el patrón **before/after** definido en [M0.2](demo_M00-S0.2-patron-before-after-windows-v3.md): cada sección no conceptual tiene `demo/X.Y-before` (estado de partida del screencast) y `demo/X.Y-after` (estado final que la siguiente clase asume). M0.2 documenta la convención completa.
+- Los commits C1–C7 van **directamente a `main`** del repo del curso. M0 NO usa rama `demo/*`.
+- Cuando M0 cierra, `main` ya contiene el código completo del proyecto en su estado de partida — exactamente lo que la 1.1 espera.
+- Las demás demos siguen el patrón **before/after** definido en [M0.2](demo_M00-S0.2-patron-before-after-windows-v3.md): cada sección no conceptual tiene `demo/X.Y-before` (estado de partida del screencast) y `demo/X.Y-after` (estado final que la siguiente clase asume). Las ramas `demo/*` parten de `main` (que ya tiene M0 dentro) y avanzan el proyecto módulo a módulo.
 
-> **M0 es excepción al patrón.** Es punto de origen del curso: rama única `demo/0.1`, sin before/after — no hay screencast del que distinguir un «antes» y un «después». De aquí parte toda la cadena.
+> **M0 es la base del curso.** No tiene rama propia ni patrón before/after — es el suelo sobre el que se construye todo. De aquí parten todas las cadenas de ramas de los Módulos 1–5.
 
 ---
 
 ## 2. Objetivo
 
-Al terminar M0, el repo `ordermanagement` cumple verbatim el estado descrito en la sección 5 del demo 1.1 ([demo_M01-S1.1-...:65-153](demo_M01-S1.1-ciclo-agentic-en-accion-v3.md#L65)):
+Al terminar M0, la subcarpeta `ordermanagement/` del repo del curso cumple verbatim el estado descrito en la sección 5 del demo 1.1 ([demo_M01-S1.1-...:65-153](demo_M01-S1.1-ciclo-agentic-en-accion-v3.md#L65)):
 
 - API REST .NET 10 funcional con cinco endpoints CRUD (`OrdersController`).
 - Capas separadas: `Domain`, `Application` (MediatR + FluentValidation), `Infrastructure` (EF Core In-Memory + mocks), `Api`.
@@ -49,140 +48,147 @@ Compila con `dotnet build` y `npm run build` sin warnings ni errores.
 
 ---
 
-## 3. Branch de partida
+## 3. Punto de partida
 
-Repo `ordermanagement` recién inicializado:
+Repo del curso `F-004-ClaudeCode` ya iniciado, en rama `main`, con `docs/` ya commiteado. La subcarpeta `ordermanagement/` aún no existe (o existe vacía). No hay código todavía.
+
+Comprobación previa:
 
 ```powershell
-mkdir C:\Users\pedro\projects\ordermanagement
-cd C:\Users\pedro\projects\ordermanagement
-git init -b main
+cd C:\w\repos\F-004-ClaudeCode
+git status
+# Esperado: rama main, working tree clean (o solo ordermanagement/ untracked sin contenido)
 ```
 
-`main` está vacío. No hay ficheros todavía. El primer commit lo creará la fase C1.
+Si la subcarpeta `ordermanagement/` ya tiene contenido de un setup anterior, **detente y verifica** antes de tocar nada — M0 asume que la subcarpeta está vacía o no existe.
 
-> Si el repo ya existe en disco con commits previos, **detente y pregunta a Pedro** antes de tocar nada. M0 asume punto cero.
+```powershell
+mkdir ordermanagement -Force | Out-Null   # crea la subcarpeta si no existe
+```
 
 ---
 
-## 4. Branch destino
+## 4. Destino de los commits
 
-`demo/0.1` parte de `main` (vacío) y recibe los siete commits granulares de la sección 7. Al validar la sección 10, se cierra M0 mergeando `demo/0.1` a `main` (sección 11).
+Los siete commits C1–C7 (sección 6) van **directamente a `main`** del repo del curso. NO hay rama `demo/0.1` ni merge posterior — los commits se aplican secuencialmente sobre la línea principal del repo.
 
-Tras ese merge:
+Tras los siete commits:
 
-- `main` queda con todo el código en un único linaje cronológico (los siete commits visibles).
-- `demo/0.1` queda como rama histórica (no se borra).
-- `demo/1.1` y las siguientes parten de `main` como estaba previsto en la 1.1.
+- `main` contiene `docs/` (curso) + `ordermanagement/` (proyecto demo completo).
+- `git log --oneline main` muestra los siete commits del proyecto sobre el commit del curso (`docs: contenido inicial del curso`).
+- A partir de aquí, las ramas `demo/X.Y-before` / `demo/X.Y-after` de los Módulos 1–5 parten de `main` y avanzan el código del proyecto siguiendo el patrón documentado en [M0.2](demo_M00-S0.2-patron-before-after-windows-v3.md).
 
 ---
 
 ## 5. Estado del repo al terminar
 
-Árbol completo tras el merge a `main`:
+Árbol relevante de `F-004-ClaudeCode/` tras los siete commits (la subcarpeta `ordermanagement/` queda completa; el resto del repo del curso —`docs/`, `.git/` raíz, etc.— se mantiene intacto):
 
 ```
-ordermanagement/
-├── .gitignore
-├── README.md
-├── global.json                            (SDK .NET 10 fijado)
-├── OrderManagement.sln
-├── src/
-│   ├── OrderManagement.Api/
-│   │   ├── Controllers/
-│   │   │   └── OrdersController.cs        (5 endpoints REST: GET, GET/{id}, POST, PUT, DELETE)
-│   │   ├── Properties/
-│   │   │   └── launchSettings.json
-│   │   ├── appsettings.json
-│   │   ├── appsettings.Development.json
-│   │   ├── Program.cs
-│   │   └── OrderManagement.Api.csproj
-│   ├── OrderManagement.Application/
-│   │   ├── Commands/
-│   │   │   ├── CreateOrderCommand.cs
-│   │   │   ├── UpdateOrderCommand.cs
-│   │   │   └── CancelOrderCommand.cs
-│   │   ├── Queries/
-│   │   │   ├── GetOrderByIdQuery.cs
-│   │   │   └── GetOrdersQuery.cs
-│   │   ├── Handlers/
-│   │   │   ├── CreateOrderHandler.cs
-│   │   │   ├── UpdateOrderHandler.cs
-│   │   │   ├── CancelOrderHandler.cs
-│   │   │   ├── GetOrderByIdHandler.cs
-│   │   │   └── GetOrdersHandler.cs
-│   │   ├── Validators/
-│   │   │   └── CreateOrderValidator.cs
-│   │   ├── Exceptions/
-│   │   │   ├── CustomerNotFoundException.cs
-│   │   │   └── OrderNotFoundException.cs
-│   │   └── OrderManagement.Application.csproj
-│   ├── OrderManagement.Domain/
-│   │   ├── Entities/
-│   │   │   ├── Order.cs
-│   │   │   ├── OrderItem.cs
-│   │   │   └── Customer.cs
-│   │   ├── Enums/
-│   │   │   └── OrderStatus.cs
-│   │   └── OrderManagement.Domain.csproj
-│   └── OrderManagement.Infrastructure/
-│       ├── Persistence/
-│       │   └── AppDbContext.cs
-│       ├── Repositories/
-│       │   ├── IOrderRepository.cs
-│       │   ├── OrderRepository.cs
-│       │   ├── ICustomerRepository.cs
-│       │   └── CustomerRepository.cs
-│       ├── Services/
-│       │   ├── IEmailService.cs
-│       │   ├── EmailService.cs            (mock que solo loguea)
-│       │   ├── IPaymentService.cs
-│       │   └── PaymentService.cs          (mock)
-│       └── OrderManagement.Infrastructure.csproj
-├── frontend/
-│   ├── angular.json
-│   ├── package.json
-│   ├── tsconfig.json
-│   ├── tsconfig.app.json
-│   ├── tsconfig.spec.json
-│   ├── src/
-│   │   ├── index.html
-│   │   ├── main.ts
-│   │   ├── styles.scss
-│   │   ├── styles/
-│   │   │   └── _tokens.scss
-│   │   └── app/
-│   │       ├── app.component.ts
-│   │       ├── app.component.html
-│   │       ├── app.config.ts
-│   │       ├── app.routes.ts
-│   │       └── orders/
-│   │           ├── orders-list.component.ts
-│   │           └── order-detail.component.ts
-│   └── public/
-│       └── favicon.ico
-└── tests/
-    └── OrderManagement.Tests/
-        └── OrderManagement.Tests.csproj   (xUnit + NSubstitute + FluentAssertions, sin tests)
+F-004-ClaudeCode/                              (repo del curso, rama main)
+├── .git/                                      (raíz, gestiona TODO el repo)
+├── .gitignore                                 (raíz del repo del curso)
+├── docs/                                      (contenido del curso, ya commiteado antes)
+└── ordermanagement/                           (NUEVO tras M0 — proyecto demo)
+    ├── README.md                              (placeholder; la 1.1 lo sustituye)
+    ├── global.json                            (SDK .NET 10 fijado)
+    ├── OrderManagement.slnx                   (formato .slnx de .NET 10)
+    ├── src/
+    │   ├── OrderManagement.Api/
+    │   │   ├── Controllers/
+    │   │   │   └── OrdersController.cs        (5 endpoints REST: GET, GET/{id}, POST, PUT, DELETE)
+    │   │   ├── Properties/
+    │   │   │   └── launchSettings.json
+    │   │   ├── appsettings.json
+    │   │   ├── appsettings.Development.json
+    │   │   ├── Program.cs
+    │   │   └── OrderManagement.Api.csproj
+    │   ├── OrderManagement.Application/
+    │   │   ├── Commands/
+    │   │   │   ├── CreateOrderCommand.cs
+    │   │   │   ├── UpdateOrderCommand.cs
+    │   │   │   └── CancelOrderCommand.cs
+    │   │   ├── Queries/
+    │   │   │   ├── GetOrderByIdQuery.cs
+    │   │   │   └── GetOrdersQuery.cs
+    │   │   ├── Handlers/
+    │   │   │   ├── CreateOrderHandler.cs
+    │   │   │   ├── UpdateOrderHandler.cs
+    │   │   │   ├── CancelOrderHandler.cs
+    │   │   │   ├── GetOrderByIdHandler.cs
+    │   │   │   └── GetOrdersHandler.cs
+    │   │   ├── Validators/
+    │   │   │   └── CreateOrderValidator.cs
+    │   │   ├── Exceptions/
+    │   │   │   ├── CustomerNotFoundException.cs
+    │   │   │   └── OrderNotFoundException.cs
+    │   │   └── OrderManagement.Application.csproj
+    │   ├── OrderManagement.Domain/
+    │   │   ├── Entities/
+    │   │   │   ├── Order.cs
+    │   │   │   ├── OrderItem.cs
+    │   │   │   └── Customer.cs
+    │   │   ├── Enums/
+    │   │   │   └── OrderStatus.cs
+    │   │   └── OrderManagement.Domain.csproj
+    │   └── OrderManagement.Infrastructure/
+    │       ├── Persistence/
+    │       │   └── AppDbContext.cs
+    │       ├── Repositories/
+    │       │   ├── IOrderRepository.cs
+    │       │   ├── OrderRepository.cs
+    │       │   ├── ICustomerRepository.cs
+    │       │   └── CustomerRepository.cs
+    │       ├── Services/
+    │       │   ├── IEmailService.cs
+    │       │   ├── EmailService.cs            (mock que solo loguea)
+    │       │   ├── IPaymentService.cs
+    │       │   └── PaymentService.cs          (mock)
+    │       └── OrderManagement.Infrastructure.csproj
+    ├── frontend/
+    │   ├── angular.json
+    │   ├── package.json
+    │   ├── tsconfig.json
+    │   ├── tsconfig.app.json
+    │   ├── tsconfig.spec.json
+    │   ├── src/
+    │   │   ├── index.html
+    │   │   ├── main.ts
+    │   │   ├── styles.scss
+    │   │   ├── styles/
+    │   │   │   └── _tokens.scss
+    │   │   └── app/
+    │   │       ├── app.component.ts
+    │   │       ├── app.component.html
+    │   │       ├── app.config.ts
+    │   │       ├── app.routes.ts
+    │   │       └── orders/
+    │   │           ├── orders-list.component.ts
+    │   │           └── order-detail.component.ts
+    │   └── public/
+    │       └── favicon.ico
+    └── tests/
+        └── OrderManagement.Tests/
+            └── OrderManagement.Tests.csproj   (xUnit + NSubstitute + FluentAssertions, sin tests)
 ```
 
-**Verificación funcional al terminar:**
+**Verificación funcional al terminar** (todos los comandos desde `c:\w\repos\F-004-ClaudeCode\ordermanagement\`):
 
-- `dotnet build` desde la raíz: 0 warnings, 0 errors.
+- `dotnet build` desde la subcarpeta del proyecto: 0 warnings, 0 errors.
 - `dotnet run --project src/OrderManagement.Api` arranca la API en `https://localhost:5001` (HTTPS dev cert) — no se ejecuta en M0, solo se valida que arranca si Pedro lo prueba manualmente.
 - `cd frontend; npm install; npm run build` produce build limpio.
-- `git log --oneline` muestra los siete commits de M0 en orden.
-- **No existe** `CLAUDE.md`, **no existe** `.claude/`, **no existe** documentación XML, **no existe** endpoint `cancel` ni excepción `InvalidOrderStateException`, **no existen** tests reales.
+- Desde la raíz del repo del curso: `git log --oneline main` muestra los siete commits de M0 sobre el commit del curso.
+- **No existe** `ordermanagement/CLAUDE.md`, **no existe** `ordermanagement/.claude/`, **no existe** documentación XML, **no existe** endpoint `cancel` ni excepción `InvalidOrderStateException`, **no existen** tests reales.
 
 ---
 
-## 6. Plan de commits granulares en `demo/0.1`
+## 6. Plan de commits granulares en `main`
 
 Siete commits, cada uno cierra una capa. Mensajes en imperativo presente, en español, prefijo de capa entre paréntesis:
 
 | # | Mensaje | Contenido |
 |---|---|---|
-| C1 | `(init) solución vacía OrderManagement.sln + .gitignore + README inicial + global.json` | Andamiaje raíz del repo. Sin código aún. |
+| C1 | `(init) ordermanagement: solución vacía OrderManagement.slnx + README inicial + global.json` | Andamiaje del proyecto dentro de la subcarpeta. Sin código aún. (El `.gitignore` ya lo gestiona el repo del curso, no se crea aquí.) |
 | C2 | `(domain) entidades Order, OrderItem, Customer y enum OrderStatus` | Capa Domain pura, sin dependencias. |
 | C3 | `(application) commands, queries, handlers MediatR, validator FluentValidation y exceptions tipadas` | Capa Application referencia Domain. |
 | C4 | `(infrastructure) AppDbContext EF Core In-Memory, repositorios y mocks de IEmailService / IPaymentService` | Capa Infrastructure referencia Domain y Application. |
@@ -198,30 +204,29 @@ Cada commit deja la solución compilable (a partir de C5 con `dotnet build` limp
 
 Cada subapartado cubre un commit. Comandos PowerShell exactos + contenido verbatim de cada fichero + verificación parcial cuando aplica.
 
-> **Premisa común:** todos los comandos asumen que estás en `C:\Users\pedro\projects\ordermanagement` con `main` recién inicializado (sección 3) y que has creado primero la rama `demo/0.1` con:
+> **Premisa común:** todos los comandos asumen que estás en `c:\w\repos\F-004-ClaudeCode\ordermanagement\` (la subcarpeta del proyecto dentro del repo del curso). El repo ya está iniciado y la rama activa es `main`. **No hace falta `git init` ni crear ramas** — los commits se aplican directamente a `main`. Para entrar a la subcarpeta:
 >
 > ```powershell
-> git checkout -b demo/0.1
+> Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 > ```
 
 ---
 
-### 7.1 — C1 init: solución, gitignore, README y global.json
+### 7.1 — C1 init: solución, README y global.json
 
-**Comandos:**
+**Comandos** (desde `c:\w\repos\F-004-ClaudeCode\ordermanagement\`):
 
 ```powershell
 # .NET SDK fijado
 dotnet new globaljson --sdk-version 10.0.100 --roll-forward latestFeature
 
-# Solución vacía
+# Solución vacía (con .NET 10 SDK genera formato .slnx por defecto)
 dotnet new sln -n OrderManagement
-
-# .gitignore estándar para Visual Studio + Node + frontend
-dotnet new gitignore
 ```
 
-**Contenido verbatim de `global.json`:**
+> **Nota sobre `.gitignore`:** NO se ejecuta `dotnet new gitignore` aquí. El repo del curso ya tiene su `.gitignore` raíz que aplica a toda la jerarquía. Si hace falta añadir reglas específicas de .NET / Angular / VS, se añaden al `.gitignore` raíz del repo del curso, no a la subcarpeta.
+
+**Contenido verbatim de `ordermanagement/global.json`:**
 
 ```json
 {
@@ -232,7 +237,7 @@ dotnet new gitignore
 }
 ```
 
-**Contenido verbatim de `README.md`** (placeholder mínimo; la demo 1.1 lo sustituye en su rama):
+**Contenido verbatim de `ordermanagement/README.md`** (placeholder mínimo; la demo 1.1 lo sustituye en su rama):
 
 ```markdown
 # OrderManagement
@@ -258,28 +263,29 @@ npm start
 ```
 ```
 
-**Adición al `.gitignore`** (concatenar al final del que genera `dotnet new gitignore`):
+**Reglas adicionales que conviene añadir al `.gitignore` raíz del repo del curso** (si no están ya — desde `c:\w\repos\F-004-ClaudeCode\`):
 
 ```gitignore
-
-# Frontend
-frontend/node_modules/
-frontend/dist/
-frontend/.angular/
-frontend/coverage/
-
-# Editor
+# Proyecto demo (Frontend / .NET / editor)
+ordermanagement/frontend/node_modules/
+ordermanagement/frontend/dist/
+ordermanagement/frontend/.angular/
+ordermanagement/frontend/coverage/
+ordermanagement/**/bin/
+ordermanagement/**/obj/
 .vs/
 .vscode/
 *.user
 ```
 
-**Commit:**
+**Commit** (desde la subcarpeta del proyecto; git encuentra el repo raíz solo):
 
 ```powershell
-git add .gitignore README.md global.json OrderManagement.sln
-git commit -m "(init) solución vacía OrderManagement.sln + .gitignore + README inicial + global.json"
+git add ordermanagement/README.md ordermanagement/global.json ordermanagement/OrderManagement.slnx
+git commit -m "(init) ordermanagement: solución vacía OrderManagement.slnx + README inicial + global.json"
 ```
+
+> Nota: los `git add` se ejecutan con paths relativos desde la raíz del repo del curso (`c:\w\repos\F-004-ClaudeCode\`). Aunque el cwd sea la subcarpeta, conviene escribir paths con prefijo `ordermanagement/` para que sean inequívocos en el log.
 
 **Verificación parcial:**
 
@@ -389,8 +395,8 @@ public class Order
 
 ```powershell
 dotnet build src/OrderManagement.Domain
-git add src/OrderManagement.Domain OrderManagement.sln
-git commit -m "(domain) entidades Order, OrderItem, Customer y enum OrderStatus"
+git add ordermanagement/src/OrderManagement.Domain ordermanagement/OrderManagement.slnx
+git commit -m "(domain) ordermanagement: entidades Order, OrderItem, Customer y enum OrderStatus"
 ```
 
 **Verificación parcial:** `dotnet build src/OrderManagement.Domain` → 0 warnings, 0 errors.
@@ -789,8 +795,8 @@ public class GetOrdersHandler : IRequestHandler<GetOrdersQuery, IReadOnlyList<Or
 
 ```powershell
 dotnet build src/OrderManagement.Application
-git add src/OrderManagement.Application OrderManagement.sln
-git commit -m "(application) commands, queries, handlers MediatR, validator FluentValidation y exceptions tipadas"
+git add ordermanagement/src/OrderManagement.Application ordermanagement/OrderManagement.slnx
+git commit -m "(application) ordermanagement: commands, queries, handlers MediatR, validator FluentValidation y exceptions tipadas"
 ```
 
 **Verificación parcial:** `dotnet build src/OrderManagement.Application` → 0 warnings, 0 errors.
@@ -1030,8 +1036,8 @@ public class PaymentService : IPaymentService
 
 ```powershell
 dotnet build src/OrderManagement.Infrastructure
-git add src/OrderManagement.Infrastructure OrderManagement.sln
-git commit -m "(infrastructure) AppDbContext EF Core In-Memory, repositorios y mocks de IEmailService / IPaymentService"
+git add ordermanagement/src/OrderManagement.Infrastructure ordermanagement/OrderManagement.slnx
+git commit -m "(infrastructure) ordermanagement: AppDbContext EF Core In-Memory, repositorios y mocks de IEmailService / IPaymentService"
 ```
 
 **Verificación parcial:** `dotnet build src/OrderManagement.Infrastructure` → 0 warnings, 0 errors.
@@ -1091,8 +1097,17 @@ using Microsoft.EntityFrameworkCore;
 using OrderManagement.Application.Abstractions;
 using OrderManagement.Application.Validators;
 using OrderManagement.Infrastructure.Persistence;
-using OrderManagement.Infrastructure.Repositories;
-using OrderManagement.Infrastructure.Services;
+using OrderRepository = OrderManagement.Infrastructure.Repositories.OrderRepository;
+using CustomerRepository = OrderManagement.Infrastructure.Repositories.CustomerRepository;
+using EmailService = OrderManagement.Infrastructure.Services.EmailService;
+using PaymentService = OrderManagement.Infrastructure.Services.PaymentService;
+
+// Nota: usamos type aliases (en vez de `using` simple de los namespaces de
+// Infrastructure) para evitar la ambigüedad de IOrderRepository entre
+// Application.Abstractions (la interfaz real) e Infrastructure.Repositories
+// (el re-export vacío que la extiende). Las interfaces del AddScoped quedan
+// bajo Application.Abstractions; las implementaciones concretas se traen
+// por alias.
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -1287,8 +1302,8 @@ public class OrdersController : ControllerBase
 
 ```powershell
 dotnet build
-git add src/OrderManagement.Api OrderManagement.sln
-git commit -m "(api) OrdersController con 5 endpoints REST + Program.cs con DI, EF Core In-Memory y MediatR"
+git add ordermanagement/src/OrderManagement.Api ordermanagement/OrderManagement.slnx
+git commit -m "(api) ordermanagement: OrdersController con 5 endpoints REST + Program.cs con DI, EF Core In-Memory y MediatR"
 ```
 
 **Verificación parcial:** `dotnet build` desde la raíz → **0 warnings, 0 errors** sobre la solución entera.
@@ -1568,11 +1583,12 @@ interface OrderDetail {
     <section style="padding: var(--space-6);">
       <a routerLink="/orders">← Back</a>
 
+      @let o = order();
       @if (loading()) {
         <p>Loading…</p>
       } @else if (error()) {
         <p style="color: var(--color-danger);">{{ error() }}</p>
-      } @else if (order(); as o) {
+      } @else if (o) {
         <h1>Order #{{ o.id }}</h1>
         <p>Customer: {{ o.customerId }}</p>
         <p>Status: {{ o.status }}</p>
@@ -1638,8 +1654,8 @@ cd frontend
 npm install
 npm run build
 cd ..
-git add frontend
-git commit -m "(frontend) Angular 19 standalone + signals: OrdersListComponent, OrderDetailComponent, app.routes, app.config y _tokens.scss"
+git add ordermanagement/frontend
+git commit -m "(frontend) ordermanagement: Angular 19 standalone + signals: OrdersListComponent, OrderDetailComponent, app.routes, app.config y _tokens.scss"
 ```
 
 **Verificación parcial:** `cd frontend; npm run build` → build limpio, sin errores TypeScript.
@@ -1705,8 +1721,8 @@ dotnet add tests/OrderManagement.Tests package Microsoft.AspNetCore.Mvc.Testing 
 
 ```powershell
 dotnet build
-git add tests OrderManagement.sln
-git commit -m "(tests) scaffold OrderManagement.Tests con xUnit + NSubstitute + FluentAssertions (sin tests)"
+git add ordermanagement/tests ordermanagement/OrderManagement.slnx
+git commit -m "(tests) ordermanagement: scaffold OrderManagement.Tests con xUnit + NSubstitute + FluentAssertions (sin tests)"
 ```
 
 **Verificación parcial:** `dotnet build` desde la raíz → 0 warnings, 0 errors. `dotnet test` → *"No tests found"* (esperado, sin clases de test).
@@ -1715,162 +1731,191 @@ git commit -m "(tests) scaffold OrderManagement.Tests con xUnit + NSubstitute + 
 
 ## 8. Prompt para Claude Code
 
-> Bloque autocontenido para pegar en una sesión limpia de Claude Code arrancada en el directorio del repo. Ejecuta las siete fases y deja `demo/0.1` lista para mergear a `main`.
+> Bloque autocontenido para pegar en una sesión limpia de Claude Code arrancada **en la raíz del repo del curso** (`c:\w\repos\F-004-ClaudeCode\`). Ejecuta las siete fases y deja `main` con el proyecto completo en `ordermanagement/`. **No crea ramas — los commits van directamente a `main`**.
 
 ````
 Estoy preparando la demo M0 (setup) del curso de Claude Code para devs
 .NET + Angular. Trabajo en Windows con PowerShell 7. Esta demo construye
-desde cero el repo `ordermanagement` que las 28 demos siguientes asumen
-como punto de partida.
+desde cero el proyecto OrderManagement como subcarpeta del repo del
+curso. Es la base sobre la que se construyen todas las demás demos.
 
 # Contexto
 
-Estoy en la raíz de un repo `ordermanagement` recién inicializado:
+Estoy en la raíz del repo del curso:
 
-  C:\Users\pedro\projects\ordermanagement
+  c:\w\repos\F-004-ClaudeCode
 
-La rama `main` está vacía — `git init -b main` y nada más. Tengo
-instalado:
+Está en rama `main`, con `docs/` ya commiteado. La subcarpeta
+`ordermanagement/` ya existe pero está vacía o solo contiene
+`global.json` + `OrderManagement.slnx` previos del C1 (verificar antes
+de empezar; si están, saltarse C1 al `git add`). Tengo instalado:
 
-- .NET 10 SDK (10.0.100)
-- Node 22 LTS
-- Angular CLI 19 (`npm install -g @angular/cli@19`)
+- .NET 10 SDK (10.0.300-preview o similar)
+- Node 22 LTS (vía nvm — `nvm use 22.18.0` antes de C6)
+- Angular CLI 19 (verificar; si no, `npm install -g @angular/cli@19`)
 - Git for Windows
 - PowerShell 7
 
-Necesito que ejecutes el setup completo creando 7 commits granulares en
-una rama nueva `demo/0.1`. Cada commit cierra una capa.
+Necesito que ejecutes el setup completo creando 7 commits granulares
+DIRECTAMENTE EN `main` (sin crear rama `demo/*`). Cada commit cierra
+una capa. Todos los `dotnet new` se ejecutan desde la subcarpeta
+`ordermanagement/`; los `git add`/`git commit` desde la raíz del repo
+del curso o con paths con prefijo `ordermanagement/`.
 
 # Lo que necesito
 
-## Tarea 0: rama de trabajo
+## Tarea 0: cwd y verificaciones previas
 
 ```powershell
-git checkout -b demo/0.1
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
+git status   # debería estar limpio o con ordermanagement/ untracked
 ```
+
+NO ejecutes `git init`, NO crees rama `demo/*`. Trabaja en `main`.
 
 ## Tarea 1: C1 — init
 
+(Si `global.json` y `OrderManagement.slnx` ya existen porque se
+crearon antes, salta los `dotnet new` y pasa directamente al
+`git add`/`commit`.)
+
 - `dotnet new globaljson --sdk-version 10.0.100 --roll-forward latestFeature`
-- `dotnet new sln -n OrderManagement`
-- `dotnet new gitignore`
-- Añadir al final del `.gitignore` el bloque adicional para frontend
-  (node_modules, dist, .angular, coverage, .vs, .vscode, *.user).
-- Crear `README.md` con el contenido placeholder que te paso al final.
-- Commit: `(init) solución vacía OrderManagement.sln + .gitignore + README inicial + global.json`
+- `dotnet new sln -n OrderManagement` (con .NET 10 genera `.slnx`)
+- Crear `README.md` placeholder dentro de `ordermanagement/` con el
+  contenido de la sección 7.1.
+- NO crear `.gitignore` dentro de `ordermanagement/` — el repo del
+  curso ya gestiona el suyo. Si hace falta añadir reglas de Frontend/
+  .NET/editor, hacerlo al `.gitignore` raíz del curso.
+- Commit:
+
+```powershell
+git add ordermanagement/README.md ordermanagement/global.json ordermanagement/OrderManagement.slnx
+git commit -m "(init) ordermanagement: solución vacía OrderManagement.slnx + README inicial + global.json"
+```
 
 ## Tarea 2: C2 — domain
 
+(Desde `ordermanagement/`)
+
 - `dotnet new classlib -n OrderManagement.Domain -o src/OrderManagement.Domain -f net10.0`
 - `dotnet sln add src/OrderManagement.Domain/OrderManagement.Domain.csproj`
-- Borrar `Class1.cs`.
-- Crear las carpetas `Entities/` y `Enums/`.
-- Crear los ficheros `OrderStatus.cs`, `Customer.cs`, `OrderItem.cs`, `Order.cs`
-  con el contenido VERBATIM que aparece en la sección 7.2 del demo M0.
-- Verificar que `dotnet build src/OrderManagement.Domain` pasa sin warnings.
-- Commit: `(domain) entidades Order, OrderItem, Customer y enum OrderStatus`
+- Borrar `src/OrderManagement.Domain/Class1.cs`.
+- Crear `src/OrderManagement.Domain/Entities/` y `src/OrderManagement.Domain/Enums/`.
+- Crear `OrderStatus.cs`, `Customer.cs`, `OrderItem.cs`, `Order.cs` con
+  el contenido VERBATIM de la sección 7.2 del demo M0.
+- Verificar `dotnet build src/OrderManagement.Domain`.
+- Commit:
+
+```powershell
+git add ordermanagement/src/OrderManagement.Domain ordermanagement/OrderManagement.slnx
+git commit -m "(domain) ordermanagement: entidades Order, OrderItem, Customer y enum OrderStatus"
+```
 
 ## Tarea 3: C3 — application
 
 - `dotnet new classlib -n OrderManagement.Application -o src/OrderManagement.Application -f net10.0`
 - `dotnet sln add src/OrderManagement.Application/OrderManagement.Application.csproj`
 - Borrar `Class1.cs`.
-- `dotnet add src/OrderManagement.Application reference src/OrderManagement.Domain`
-- `dotnet add src/OrderManagement.Application package MediatR --version 12.5.0`
-- `dotnet add src/OrderManagement.Application package FluentValidation --version 11.11.0`
-- Crear las carpetas `Commands/`, `Queries/`, `Handlers/`, `Validators/`,
-  `Exceptions/` y `Abstractions/`.
+- Referencia a Domain y paquetes:
+  - MediatR 12.5.0
+  - FluentValidation 11.11.0
+- Crear `Commands/`, `Queries/`, `Handlers/`, `Validators/`, `Exceptions/`, `Abstractions/`.
 - Crear todos los ficheros listados en la sección 7.3 del demo M0 con
-  su contenido VERBATIM.
-- Verificar que `dotnet build src/OrderManagement.Application` pasa.
-- Commit: `(application) commands, queries, handlers MediatR, validator FluentValidation y exceptions tipadas`
+  contenido VERBATIM.
+- Verificar `dotnet build src/OrderManagement.Application`.
+- Commit:
+
+```powershell
+git add ordermanagement/src/OrderManagement.Application ordermanagement/OrderManagement.slnx
+git commit -m "(application) ordermanagement: commands, queries, handlers MediatR, validator FluentValidation y exceptions tipadas"
+```
 
 ## Tarea 4: C4 — infrastructure
 
 - `dotnet new classlib -n OrderManagement.Infrastructure -o src/OrderManagement.Infrastructure -f net10.0`
 - `dotnet sln add src/OrderManagement.Infrastructure/OrderManagement.Infrastructure.csproj`
 - Borrar `Class1.cs`.
-- Referencias a Domain y Application.
-- Paquetes:
-  - Microsoft.EntityFrameworkCore 10.0.0
-  - Microsoft.EntityFrameworkCore.InMemory 10.0.0
-  - Microsoft.Extensions.Logging.Abstractions 10.0.0
-- Crear carpetas `Persistence/`, `Repositories/`, `Services/`.
-- Crear ficheros con el contenido VERBATIM de la sección 7.4 del demo M0:
-  AppDbContext.cs, IOrderRepository.cs (re-export), OrderRepository.cs,
-  ICustomerRepository.cs (re-export), CustomerRepository.cs,
-  IEmailService.cs (re-export), EmailService.cs, IPaymentService.cs (re-export),
-  PaymentService.cs.
+- Referencias a Domain y Application; paquetes EF Core 10 + Logging.
+- Crear `Persistence/`, `Repositories/`, `Services/` con el VERBATIM de §7.4.
 - Verificar build.
-- Commit: `(infrastructure) AppDbContext EF Core In-Memory, repositorios y mocks de IEmailService / IPaymentService`
+- Commit:
+
+```powershell
+git add ordermanagement/src/OrderManagement.Infrastructure ordermanagement/OrderManagement.slnx
+git commit -m "(infrastructure) ordermanagement: AppDbContext EF Core In-Memory, repositorios y mocks de IEmailService / IPaymentService"
+```
 
 ## Tarea 5: C5 — api
 
 - `dotnet new web -n OrderManagement.Api -o src/OrderManagement.Api -f net10.0`
 - `dotnet sln add src/OrderManagement.Api/OrderManagement.Api.csproj`
-- Referencias a Application e Infrastructure.
-- Paquetes:
-  - MediatR 12.5.0
-  - FluentValidation.AspNetCore 11.3.0
-  - Microsoft.AspNetCore.OpenApi 10.0.0
+- Referencias a Application e Infrastructure; paquetes MediatR 12.5.0,
+  FluentValidation.AspNetCore 11.3.0, Microsoft.AspNetCore.OpenApi 10.0.0.
 - Sustituir `Program.cs` y crear `Controllers/OrdersController.cs`,
   `appsettings.json`, `appsettings.Development.json` y
-  `Properties/launchSettings.json` con el contenido VERBATIM
-  de la sección 7.5 del demo M0.
-- Verificar `dotnet build` sobre la solución entera.
-- Commit: `(api) OrdersController con 5 endpoints REST + Program.cs con DI, EF Core In-Memory y MediatR`
+  `Properties/launchSettings.json` con VERBATIM de §7.5.
+- Verificar `dotnet build` sobre la solución entera (ya tienes 4 proyectos).
+- Commit:
+
+```powershell
+git add ordermanagement/src/OrderManagement.Api ordermanagement/OrderManagement.slnx
+git commit -m "(api) ordermanagement: OrdersController con 5 endpoints REST + Program.cs con DI, EF Core In-Memory y MediatR"
+```
 
 ## Tarea 6: C6 — frontend
 
+> Antes de empezar: `nvm use 22.18.0` para activar Node 22.
+
 - `ng new frontend --routing=true --style=scss --standalone=true --strict=true --package-manager=npm --skip-git=true`
-- Sustituir / crear los ficheros listados en la sección 7.6 del demo M0
-  con su contenido VERBATIM:
-  - frontend/package.json
-  - frontend/src/styles.scss
-  - frontend/src/styles/_tokens.scss
-  - frontend/src/main.ts
-  - frontend/src/app/app.component.ts
-  - frontend/src/app/app.component.html
-  - frontend/src/app/app.config.ts
-  - frontend/src/app/app.routes.ts
-  - frontend/src/app/orders/orders-list.component.ts
-  - frontend/src/app/orders/order-detail.component.ts
-- `cd frontend; npm install; npm run build`
-- Commit: `(frontend) Angular 19 standalone + signals: OrdersListComponent, OrderDetailComponent, app.routes, app.config y _tokens.scss`
+- Sustituir / crear los ficheros listados en la sección 7.6 con VERBATIM:
+  package.json, src/styles.scss, src/styles/_tokens.scss, src/main.ts,
+  src/app/app.component.ts/.html, src/app/app.config.ts, src/app/app.routes.ts,
+  src/app/orders/orders-list.component.ts, src/app/orders/order-detail.component.ts.
+- `cd frontend; npm install; npm run build` — debe pasar limpio.
+- Commit:
+
+```powershell
+git add ordermanagement/frontend
+git commit -m "(frontend) ordermanagement: Angular 19 standalone + signals: OrdersListComponent, OrderDetailComponent, app.routes, app.config y _tokens.scss"
+```
 
 ## Tarea 7: C7 — tests
 
 - `dotnet new xunit -n OrderManagement.Tests -o tests/OrderManagement.Tests -f net10.0`
 - `dotnet sln add tests/OrderManagement.Tests/OrderManagement.Tests.csproj`
 - Borrar `UnitTest1.cs`.
-- Referencias a Domain, Application, Infrastructure y Api.
-- Paquetes: NSubstitute 5.3.0, FluentAssertions 7.0.0, Microsoft.AspNetCore.Mvc.Testing 10.0.0.
-- El `.csproj` tiene que quedar EXACTAMENTE como aparece en la sección 7.7 del demo M0.
-- Verificar `dotnet build` y `dotnet test` (este último debe decir "No tests found").
-- Commit: `(tests) scaffold OrderManagement.Tests con xUnit + NSubstitute + FluentAssertions (sin tests)`
+- Referencias a Domain, Application, Infrastructure, Api; paquetes
+  NSubstitute 5.3.0, FluentAssertions 7.0.0, Microsoft.AspNetCore.Mvc.Testing 10.0.0.
+- El `.csproj` debe quedar EXACTAMENTE como en §7.7.
+- `dotnet build` (limpio) y `dotnet test` (debe decir «No tests found»).
+- Commit:
+
+```powershell
+git add ordermanagement/tests ordermanagement/OrderManagement.slnx
+git commit -m "(tests) ordermanagement: scaffold OrderManagement.Tests con xUnit + NSubstitute + FluentAssertions (sin tests)"
+```
 
 # Restricciones (importantes)
 
+- NO ejecutar `git init`, NO crear ramas `demo/*`. M0 va directamente a `main`.
+- NO crear `.gitignore` dentro de `ordermanagement/`. El repo del curso ya tiene el suyo raíz.
 - NO crear `CLAUDE.md`. Eso es la demo 1.2b.
 - NO crear `.claude/` ni `.claude/settings.json`. Eso es la demo 1.2b.
 - NO crear `scripts/`. Eso es la demo 1.3a.
 - NO añadir endpoint `cancel` al controller. Eso es la demo 1.1 (en vivo, descartado).
 - NO añadir excepción `InvalidOrderStateException`. Eso es la demo 1.3b.
 - NO añadir documentación XML en métodos públicos. Eso es la demo 1.3a o posterior.
-- NO añadir tests reales en `tests/OrderManagement.Tests/`. Eso es el módulo 5.
+- NO añadir tests reales en `ordermanagement/tests/OrderManagement.Tests/`. Eso es el módulo 5.
 - NO hacer `git push`. Yo lo haré tras revisar.
-- NO mergear `demo/0.1` a `main` automáticamente. La sección 11 lo cubre y lo decide Pedro.
 - NO modificar el README más allá del placeholder de C1 (la demo 1.1 lo sustituye en su rama).
 - NO inventar versiones de paquetes — usa las exactas de cada tarea.
 
 # Cuando termines, dime
 
-1. Que la rama `demo/0.1` está creada y tiene los 7 commits en orden.
-2. Que `dotnet build` desde la raíz pasa con 0 warnings y 0 errores.
-3. Que `cd frontend; npm run build` pasa sin errores.
-4. Que `git ls-files` confirma que NO existen `CLAUDE.md`, `.claude/`,
-   tests reales, endpoint cancel ni `InvalidOrderStateException`.
-5. Resumen breve del log: `git log --oneline demo/0.1`.
+1. Que `git log --oneline main -10` muestra los 7 commits del proyecto sobre el commit del curso, en orden.
+2. Que `dotnet build` desde `ordermanagement/` pasa con 0 warnings y 0 errores.
+3. Que `cd ordermanagement/frontend; npm run build` pasa sin errores.
+4. Que `git ls-files ordermanagement/` confirma que NO existen `CLAUDE.md`, `.claude/`, tests reales, endpoint cancel ni `InvalidOrderStateException`.
 
 Si algo falla durante el proceso (un paquete que no resuelve, un error
 de versión, una inconsistencia entre el contenido verbatim que te paso
@@ -1885,44 +1930,46 @@ inventes soluciones.
 **Tienen que existir:**
 
 ```
-.gitignore
-README.md
-global.json
-OrderManagement.sln
-src/OrderManagement.Domain/                       (csproj + Entities + Enums)
-src/OrderManagement.Application/                  (csproj + Commands + Queries + Handlers + Validators + Exceptions + Abstractions)
-src/OrderManagement.Infrastructure/               (csproj + Persistence + Repositories + Services)
-src/OrderManagement.Api/                          (csproj + Controllers + Program.cs + appsettings + launchSettings)
-frontend/                                         (Angular 19 con orders-list, order-detail, _tokens.scss, app.config, app.routes)
-tests/OrderManagement.Tests/                      (csproj con xUnit + NSubstitute + FluentAssertions, sin .cs)
+ordermanagement/README.md
+ordermanagement/global.json
+ordermanagement/OrderManagement.slnx
+ordermanagement/src/OrderManagement.Domain/                       (csproj + Entities + Enums)
+ordermanagement/src/OrderManagement.Application/                  (csproj + Commands + Queries + Handlers + Validators + Exceptions + Abstractions)
+ordermanagement/src/OrderManagement.Infrastructure/               (csproj + Persistence + Repositories + Services)
+ordermanagement/src/OrderManagement.Api/                          (csproj + Controllers + Program.cs + appsettings + launchSettings)
+ordermanagement/frontend/                                         (Angular 19 con orders-list, order-detail, _tokens.scss, app.config, app.routes)
+ordermanagement/tests/OrderManagement.Tests/                      (csproj con xUnit + NSubstitute + FluentAssertions, sin .cs)
 ```
 
-Siete commits en `demo/0.1` con los mensajes y orden de la sección 6.
+Siete commits en `main` con los mensajes y orden de la sección 6, sobre el commit del curso (`docs: contenido inicial del curso`).
 
 **No deben existir:**
 
-- `CLAUDE.md`
-- `.claude/` (ni carpeta vacía)
-- `scripts/`
+- `ordermanagement/CLAUDE.md`
+- `ordermanagement/.claude/` (ni carpeta vacía)
+- `ordermanagement/scripts/`
+- `ordermanagement/.gitignore` propio (lo gestiona el repo del curso)
 - Endpoint `POST /api/orders/{id}/cancel` ni cualquier variante en `OrdersController.cs`
 - `InvalidOrderStateException.cs`
 - Documentación XML (`/// <summary>`) en métodos públicos
-- Ficheros `.cs` con clases de test dentro de `tests/`
-- `docs/` (ese se crea en la 1.1)
+- Ficheros `.cs` con clases de test dentro de `ordermanagement/tests/`
 
 ---
 
 ## 10. Verificación final (criterios de aceptación)
 
-Comandos para validar el estado de `demo/0.1` antes de mergear:
+Comandos para validar el estado tras los siete commits:
 
 ```powershell
+# Posicionarse en la subcarpeta del proyecto
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
+
 # 1. Build .NET
 dotnet restore
 dotnet build
 # Esperado: 0 warnings, 0 errors
 
-# 2. Build Angular
+# 2. Build Angular (con Node 22 activo: nvm use 22.18.0)
 cd frontend
 npm install
 npm run build
@@ -1933,55 +1980,49 @@ cd ..
 dotnet test
 # Esperado: "No tests found" o equivalente — pasa porque no hay tests
 
-# 4. Estado git
+# 4. Estado git (desde la raíz del repo del curso)
+Set-Location c:\w\repos\F-004-ClaudeCode
 git status
 # Esperado: working tree clean
 
-git log --oneline demo/0.1
-# Esperado, en orden inverso (más reciente arriba):
-#   <hash> (tests) scaffold OrderManagement.Tests con xUnit + NSubstitute + FluentAssertions (sin tests)
-#   <hash> (frontend) Angular 19 standalone + signals: OrdersListComponent, OrderDetailComponent, app.routes, app.config y _tokens.scss
-#   <hash> (api) OrdersController con 5 endpoints REST + Program.cs con DI, EF Core In-Memory y MediatR
-#   <hash> (infrastructure) AppDbContext EF Core In-Memory, repositorios y mocks de IEmailService / IPaymentService
-#   <hash> (application) commands, queries, handlers MediatR, validator FluentValidation y exceptions tipadas
-#   <hash> (domain) entidades Order, OrderItem, Customer y enum OrderStatus
-#   <hash> (init) solución vacía OrderManagement.sln + .gitignore + README inicial + global.json
+git log --oneline main -10
+# Esperado (más reciente arriba), tras el commit del curso:
+#   <hash> (tests) ordermanagement: scaffold OrderManagement.Tests ...
+#   <hash> (frontend) ordermanagement: Angular 19 standalone + signals ...
+#   <hash> (api) ordermanagement: OrdersController + Program.cs ...
+#   <hash> (infrastructure) ordermanagement: AppDbContext + repos + mocks
+#   <hash> (application) ordermanagement: commands, queries, handlers ...
+#   <hash> (domain) ordermanagement: entidades Order, OrderItem, Customer y enum OrderStatus
+#   <hash> (init) ordermanagement: solución vacía OrderManagement.slnx + README + global.json
+#   <hash> docs: contenido inicial del curso
+#   09868d1 Initial commit
 
-# 5. Ausencias confirmadas
-git ls-files | Select-String -Pattern "CLAUDE\.md$"          # Esperado: vacío
-git ls-files | Select-String -Pattern "\.claude/"            # Esperado: vacío
-git ls-files | Select-String -Pattern "InvalidOrderState"    # Esperado: vacío
-git ls-files tests/ | Select-String -Pattern "\.cs$"         # Esperado: vacío (solo .csproj indexado)
+# 5. Ausencias confirmadas (filtrando solo la subcarpeta del proyecto)
+git ls-files ordermanagement/ | Select-String -Pattern "CLAUDE\.md$"          # Esperado: vacío
+git ls-files ordermanagement/ | Select-String -Pattern "\.claude/"            # Esperado: vacío
+git ls-files ordermanagement/ | Select-String -Pattern "InvalidOrderState"    # Esperado: vacío
+git ls-files ordermanagement/tests/ | Select-String -Pattern "\.cs$"          # Esperado: vacío (solo .csproj)
 
 # 6. Endpoint cancel ausente del controller
-Select-String -Path src/OrderManagement.Api/Controllers/OrdersController.cs -Pattern "cancel" -SimpleMatch
+Select-String -Path ordermanagement/src/OrderManagement.Api/Controllers/OrdersController.cs -Pattern "cancel" -SimpleMatch
 # Esperado: vacío
 ```
 
-Si los seis pasos pasan, la rama está lista. Si alguno falla, **investigar antes de mergear**.
+Si los seis pasos pasan, M0 está cerrado y `main` queda lista para que la **demo 1.1** parta de aquí. Las ramas `demo/X.Y-before` / `demo/X.Y-after` de los Módulos 1–5 nacerán a partir de `main` siguiendo el patrón de [M0.2](demo_M00-S0.2-patron-before-after-windows-v3.md).
 
 ---
 
-## 11. Cierre M0 — merge a `main`
+## 11. (Sin merge — M0 vive en `main`)
 
-Cuando la sección 10 pasa entera, se mergea `demo/0.1` a `main`:
+A diferencia del modelo previo (donde M0 vivía en una rama `demo/0.1` que se mergeaba al cerrar), en la versión actual los commits C1–C7 van directamente a `main`. **No hay nada que mergear**.
 
-```powershell
-git checkout main
-git merge --ff-only demo/0.1
-```
-
-> Se usa `--ff-only` para mantener el historial lineal — `main` partía de un commit vacío y `demo/0.1` lo extiende, así que el fast-forward es posible y deseable. Los siete commits quedan visibles en `main` con sus mensajes originales.
-
-**No se borra `demo/0.1`** — queda como rama histórica para quien quiera ver la construcción capa a capa.
-
-Tras el merge, el repo queda listo para que la 1.1 ejecute su flujo:
+Si por algún motivo se quisiera reservar M0 en una rama histórica de inspección, basta con etiquetar el último commit:
 
 ```powershell
-git checkout -b demo/1.1   # parte de main, como dice la 1.1
+git tag m0-setup-completed
 ```
 
-Y el resto del curso sigue su curso normal.
+Pero no es necesario para que el curso funcione. La 1.1 parte de `main`, y todas las ramas posteriores también.
 
 ---
 
@@ -2006,7 +2047,14 @@ Y el resto del curso sigue su curso normal.
 
 **Tono y forma de los commits:**
 
-- Mensajes en imperativo presente, en español, con prefijo de capa entre paréntesis. Coherente con el resto del curso.
-- Sin firma `Co-Authored-By: Claude` porque la sección 11 (merge) no genera commit nuevo (`--ff-only`). Los siete commits ya están autorizados por Pedro al ejecutar el prompt.
+- Mensajes en imperativo presente, en español, con prefijo de capa entre paréntesis seguido de `ordermanagement:` para indicar el ámbito (la subcarpeta del proyecto, distinguible de los commits de `docs:`).
+- Cada commit incluye `Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>` si lo ejecutaste con Claude Code activo y autorizaste la firma. Si lo prefieres sin firma, lo quitas de los `git commit -m`.
+
+**Estructura del repo y ramas:**
+
+- `main` contiene **TODO**: docs del curso + código del proyecto OrderManagement, compartiendo historia. No hay separación.
+- M0 NO usa rama `demo/*` — es base. Los siete commits viven en `main` directamente.
+- A partir del Módulo 1, las ramas `demo/X.Y-before` / `demo/X.Y-after` parten de `main` (que ya tiene M0 dentro) siguiendo el patrón de [M0.2](demo_M00-S0.2-patron-before-after-windows-v3.md).
+- El alumno hace `git clone <repo del curso>` y obtiene el curso completo + el código en su estado de partida (rama main). Para inspeccionar un punto intermedio: `git checkout demo/X.Y-before` o `git checkout demo/X.Y-after`.
 
 **Si alguno de los puntos anteriores no encaja con cómo grabarías el curso, el sitio para corregir es esta sección 12 + los ficheros verbatim afectados — no las demás demos.**

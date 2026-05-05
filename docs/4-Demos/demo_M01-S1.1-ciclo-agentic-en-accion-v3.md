@@ -58,14 +58,16 @@ main
 demo/1.1
 ```
 
-> Tras la demo, la rama `demo/1.1` queda con dos cambios respecto a `main`: un `README.md` actualizado describiendo el proyecto y un `docs/DEMOS.md` con el roadmap de las 28 secciones (M0–M5) del curso. **Los cambios que el formador hace en vivo durante el screencast (el endpoint nuevo, los tests, etc.) NO se commitean** — se descartan al final. La rama queda lista para que cualquier alumno haga `git checkout demo/1.1` y vea el mismo punto de partida.
+> Tras la demo, la rama `demo/1.1` queda con dos cambios respecto a `main`: el `ordermanagement/README.md` actualizado describiendo el proyecto y un `docs/DEMOS.md` (en la raíz `docs/` del repo del curso) con el roadmap de las 28 secciones (M0–M5) del curso. **Los cambios que el formador hace en vivo durante el screencast (el endpoint nuevo, los tests, etc.) NO se commitean** — se descartan al final. La rama queda lista para que cualquier alumno haga `git checkout demo/1.1` y vea el mismo punto de partida.
 
 ---
 
 ## 5. Estado del repo al empezar
 
+Subcarpeta `ordermanagement/` dentro del repo del curso `F-004-ClaudeCode` (la raíz del repo contiene además `docs/` con manuales/gammas/demos, `.git/`, `.gitignore` raíz y el README del curso — no se muestran aquí porque la demo se centra en el proyecto):
+
 ```
-ordermanagement/
+ordermanagement/                            (subcarpeta dentro del repo del curso)
 ├── src/
 │   ├── OrderManagement.Api/
 │   │   ├── Controllers/
@@ -116,9 +118,12 @@ ordermanagement/
 ├── tests/
 │   └── OrderManagement.Tests/            (carpeta vacía, sin tests todavía)
 │       └── OrderManagement.Tests.csproj
-├── .gitignore
-└── README.md                             (mínimo, sin info detallada)
+├── OrderManagement.slnx                  (formato .slnx de .NET 10)
+├── global.json                           (SDK .NET 10 fijado)
+└── README.md                             (placeholder mínimo de M0; la 1.1 lo sustituye)
 ```
+
+> **Nota:** el `.gitignore` no aparece dentro de `ordermanagement/` porque lo gestiona el `.gitignore` raíz del repo del curso. Misma cosa con `.git/` — solo hay uno, en la raíz de `F-004-ClaudeCode/`.
 
 **Estado funcional al empezar:**
 
@@ -136,16 +141,17 @@ ordermanagement/
 **Comandos para que el formador verifique antes de la demo (PowerShell):**
 
 ```powershell
-# En PowerShell, desde la raíz del repo
-cd C:\Users\pedro\projects\ordermanagement
+# Desde la raíz del repo del curso
+cd c:\w\repos\F-004-ClaudeCode
 git checkout main
 git pull
 
-# Verificar build
+# Verificar build del proyecto
+cd ordermanagement
 dotnet build
 # Esperado: 0 warnings, 0 errors
 
-# Verificar frontend (en una terminal aparte)
+# Verificar frontend (con Node 22 activo: nvm use 22.18.0)
 cd frontend
 npm install
 npm run build
@@ -154,10 +160,10 @@ npm run build
 
 **Lo que el alumno verá al hacer `git checkout demo/1.1` antes de empezar:**
 
-- Misma estructura del árbol de arriba.
-- README.md con descripción decente del proyecto y roadmap del curso.
-- `docs/DEMOS.md` con el registro de las 28 secciones (M0–M5).
-- Compila con `dotnet build` y arranca con `dotnet run --project src/OrderManagement.Api`.
+- Misma estructura del árbol de arriba bajo `ordermanagement/`.
+- `ordermanagement/README.md` con descripción decente del proyecto y referencia al curso.
+- `docs/DEMOS.md` (raíz docs del curso) con el registro de las 28 secciones (M0–M5) en formato before/after.
+- Compila con `dotnet build` (desde `ordermanagement/`) y arranca con `dotnet run --project ordermanagement/src/OrderManagement.Api`.
 
 ---
 
@@ -180,8 +186,9 @@ las 4 fases del ciclo agentic sobre OrderManagement.
 
 # Contexto del proyecto
 
-Estoy en la rama `main` del repo `ordermanagement`. El repo ya contiene un 
-proyecto .NET 10 + Angular 19 funcional con esta estructura:
+Estoy en la rama `main` del repo del curso `F-004-ClaudeCode`. El proyecto demo
+OrderManagement vive como subcarpeta `ordermanagement/` y ya está construido
+en main (los siete commits granulares de M0). Estructura dentro de `ordermanagement/`:
 
 - src/OrderManagement.Api/                    (ASP.NET Core)
   └── Controllers/OrdersController.cs         (5 endpoints REST)
@@ -211,9 +218,9 @@ git pull
 git checkout -b demo/1.1
 ```
 
-## Tarea 2: actualizar README.md
+## Tarea 2: actualizar ordermanagement/README.md
 
-Sustituye el README.md actual por uno con esta estructura exacta:
+Sustituye el `ordermanagement/README.md` placeholder (creado en M0.1 C1) por uno con esta estructura exacta. (El `README.md` raíz del repo F-004-ClaudeCode es el del **curso**, NO se toca aquí.)
 
 ### Sección "OrderManagement"
 
@@ -287,7 +294,7 @@ Una frase: "Cada gamma del curso tiene una demo asociada en una rama dedicada
 
 ## Tarea 3: crear docs/DEMOS.md
 
-Si la carpeta `docs/` no existe, créala.
+La carpeta `docs/` ya existe en la raíz del repo del curso (contiene manuales/gammas/demos del curso). Se añade dentro **un fichero nuevo** `docs/DEMOS.md` (registro de demos), sin tocar nada del resto de `docs/`.
 
 Contenido del fichero `docs/DEMOS.md`:
 
@@ -382,8 +389,8 @@ Si algo falla, **para y dime antes de commitear**.
 Si todo compila, haz un único commit:
 
 ```powershell
-git add README.md docs/DEMOS.md
-git commit -m "demo/1.1: README actualizado y registro de demos creado"
+git add ordermanagement/README.md docs/DEMOS.md
+git commit -m "demo/1.1: ordermanagement/README actualizado y docs/DEMOS.md creado"
 ```
 
 NO hagas push. Yo lo hago manualmente cuando lo revise.
