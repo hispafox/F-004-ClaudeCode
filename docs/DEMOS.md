@@ -15,7 +15,7 @@ rama única `demo/X.Y` (los cambios del screencast se descartan al final).
 ## Módulo 1 — Claude Code básico
 
 - [x] **demo/1.1** — Hello Claude Code: el ciclo agentic en acción (CONCEPTUAL, rama única)
-- [ ] demo/1.2a-before / demo/1.2a-after — Instalación, autenticación y primer arranque
+- [x] **demo/1.2a-before / demo/1.2a-after** — Instalación, autenticación y primer arranque
 - [ ] demo/1.2b-before / demo/1.2b-after — CLAUDE.md y settings.json para .NET 10 + Angular 19
 - [ ] demo/1.3a-before / demo/1.3a-after — Tres modos de uso, slash commands, /compact
 - [ ] demo/1.3b-before / demo/1.3b-after — Workflow completo con permisos sanos
