@@ -22,7 +22,7 @@ rama única `demo/X.Y` (los cambios del screencast se descartan al final).
 
 ## Módulo 2 — Skills
 
-- [ ] demo/2.1a — Primer skill leído por dentro (CONCEPTUAL, rama única)
+- [x] **demo/2.1a** — Anatomía de un skill leyendo los oficiales (CONCEPTUAL, rama única)
 - [ ] demo/2.1b — Skill propio diseccionado (CONCEPTUAL, rama única)
 - [ ] demo/2.2a-before / demo/2.2a-after — Primer skill creado: angular-component-generator
 - [ ] demo/2.2b-before / demo/2.2b-after — Skill con scripts y plantillas
