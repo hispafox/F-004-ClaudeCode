@@ -211,7 +211,7 @@ git checkout demo/2.2b-before
 git checkout -b demo/2.2b-after
 ```
 
-## Tarea 2: crear plantillas en `.claude/skills/angular-component/assets/`
+## Tarea 2: crear plantillas en `ordermanagement/.claude/skills/angular-component/assets/`
 
 Tres ficheros plantilla con placeholders `{{...}}`:
 
@@ -223,7 +223,7 @@ Tres ficheros plantilla con placeholders `{{...}}`:
 - `component.template.spec.ts` — esqueleto del fichero spec con xUnit-style
   para Angular y placeholders `{{KEBAB_NAME}}`, `{{PASCAL_NAME}}`.
 
-## Tarea 3: crear `.claude/skills/angular-component/scripts/generate.py`
+## Tarea 3: crear `ordermanagement/.claude/skills/angular-component/scripts/generate.py`
 
 Script Python 3 que:
 - Toma como argumento un nombre de componente en cualquier convención
@@ -237,7 +237,7 @@ Script Python 3 que:
 
 ## Tarea 4: actualizar SKILL.md a v4 + marcar DEMOS.md + commit
 
-Reescribe `.claude/skills/angular-component/SKILL.md` reduciéndolo respecto
+Reescribe `ordermanagement/.claude/skills/angular-component/SKILL.md` reduciéndolo respecto
 a la v2: la prosa de plantillas se sustituye por referencias al `assets/`,
 y se añade un bloque `` ```! `` que ejecuta el script `scripts/generate.py`
 con el nombre del componente al activarse el skill. Mantén el frontmatter
@@ -247,13 +247,14 @@ plantillas y script), y respeta las 5 reglas técnicas críticas.
 Marca la 2.2b en `docs/DEMOS.md`:
 
 ```
-- [x] **demo/2.2b** — angular-component v3 (assets) y v4 (scripts)
+- [x] **demo/2.2b-before / demo/2.2b-after** — angular-component v3 (assets) y v4 (scripts)
 ```
 
-Verifica con `dotnet build` (0 warnings, 0 errors) y commit:
+Verifica con `dotnet build` desde `ordermanagement/` (0 warnings, 0 errors) y commit desde la raíz del curso:
 
 ```powershell
-git add .claude/skills/angular-component docs/DEMOS.md
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/.claude/skills/angular-component docs/DEMOS.md
 git commit -m "demo/2.2b-after: angular-component v4 con assets/ y scripts/"
 ```
 
