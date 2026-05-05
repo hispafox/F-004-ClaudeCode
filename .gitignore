@@ -430,3 +430,7 @@ FodyWeavers.xsd
 
 # Language server cache files
 *.lscache
+
+# Claude Code (proyecto demo)
+ordermanagement/.claude/settings.local.json
+ordermanagement/.claude/cache/
