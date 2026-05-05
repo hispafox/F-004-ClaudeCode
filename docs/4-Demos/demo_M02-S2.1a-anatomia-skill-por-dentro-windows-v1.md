@@ -3,7 +3,7 @@
 > **Versión:** v1 | **Módulo:** 2 | **Sub:** 2.1a | **Estado:** ✅ Versión final
 > **Archivo:** `demo_M02-S2.1a-anatomia-skill-por-dentro-windows-v1.md`
 > **Branch destino:** `demo/2.1a`
-> **Branch de partida:** `demo/1.3b`
+> **Branch de partida:** `demo/1.3b-after`
 > **Tiempo total estimado:** ~16-19 minutos
 > **Tipo:** Demo de exploración. **Aún no se crea ningún skill — se diseccionan los oficiales para que el alumno entienda qué tiene un skill por dentro antes de escribir el suyo en la 2.2a.** Es deliberadamente "ver, no tocar". Las demos de creación empiezan en 2.2a.
 > **Plataforma:** Windows 11 (PowerShell 7).
@@ -46,7 +46,7 @@ Y dos cosas que tienen que **NO quedar** en su cabeza:
 ## 3. Branch de partida
 
 ```
-demo/1.3b
+demo/1.3b-after
 ```
 
 > Estado actual de la rama: el módulo 1 cerrado entero. `CLAUDE.md` con sus 5 bloques. `.claude/settings.json` con permisos. La feature de cancelación de pedidos implementada con `InvalidOrderStateException`, refactor del handler y endpoint nuevo. Todo commiteado.
@@ -65,7 +65,7 @@ demo/2.1a
 
 ## 5. Estado del repo al empezar
 
-Idéntico a `demo/1.3b`. La estructura del proyecto sigue intacta:
+Idéntico a `demo/1.3b-after`. La estructura del proyecto sigue intacta:
 
 ```
 ordermanagement/
@@ -138,7 +138,7 @@ real antes de escribir el primer skill propio en la 2.2a.
 
 # Contexto
 
-Estoy en la rama `demo/1.3b` del repo `ordermanagement`. La rama tiene
+Estoy en la rama `demo/1.3b-after` del repo `ordermanagement`. La rama tiene
 todo el módulo 1 completo: CLAUDE.md, .claude/settings.json, scripts/,
 y la feature de cancelación de pedidos implementada.
 
@@ -154,7 +154,7 @@ Tres tareas:
 ## Tarea 1: crear la rama
 
 ```powershell
-git checkout demo/1.3b
+git checkout demo/1.3b-after
 git pull
 git checkout -b demo/2.1a
 ```
@@ -240,6 +240,7 @@ propio: un generador de componentes Angular standalone para OrderManagement.
 ## Tarea 4: verificar y commitear
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 dotnet build
 ```
 
@@ -247,6 +248,7 @@ Esperado: 0 warnings, 0 errors. (No tocamos código, solo doc, pero
 verificamos.)
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode
 git add docs/DEMOS.md docs/skills-explorados.md
 git commit -m "demo/2.1a: notas de skills oficiales explorados"
 ```
@@ -264,7 +266,7 @@ NO hagas push.
 
 # Cuando termines, dime
 
-1. Que la rama demo/2.1a está creada desde demo/1.3b.
+1. Que la rama demo/2.1a está creada desde demo/1.3b-after.
 2. Que docs/DEMOS.md tiene 2.1a marcada.
 3. Que docs/skills-explorados.md está creado.
 4. Que el build pasa.
@@ -278,7 +280,7 @@ Si tienes dudas, para y pregúntame.
 ## 7. Artefactos que Claude Code debe generar
 
 ```
-✓ Rama nueva: demo/2.1a (parte de demo/1.3b)
+✓ Rama nueva: demo/2.1a (parte de demo/1.3b-after)
 ✓ docs/DEMOS.md con 2.1a marcada como [x]
 ✓ docs/skills-explorados.md con notas de los skills explorados
 ✓ Verificación de build OK: dotnet build limpio
@@ -350,8 +352,8 @@ On branch demo/2.1a
 nothing to commit, working tree clean
 
 abc1234 (HEAD -> demo/2.1a) demo/2.1a: notas de skills oficiales explorados
-xyz9876 (demo/1.3b) demo/1.3b: implementa endpoint POST /api/orders/{id}/cancel...
-def5678 demo/1.3b: marca demo de workflow completo (pre-grabación)
+xyz9876 (demo/1.3b-after) demo/1.3b-after: implementa endpoint POST /api/orders/{id}/cancel...
+def5678 demo/1.3b-after: marca demo de workflow completo (pre-grabación)
 ```
 
 **Lo que dices:**
