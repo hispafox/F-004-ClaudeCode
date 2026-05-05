@@ -134,33 +134,37 @@ sobre el proyecto OrderManagement.
 
 # Contexto
 
-Estoy en la rama `demo/1.2b` del repo `ordermanagement`. El repo ya
-tiene CLAUDE.md, .claude/settings.json con allow/deny configurados,
-y .gitignore actualizado. La estructura del código no cambia desde
-la 1.2b.
+Estoy en la rama `demo/1.2b-after` del repo del curso `F-004-ClaudeCode`.
+El proyecto demo en `ordermanagement/` ya tiene `ordermanagement/CLAUDE.md`,
+`ordermanagement/.claude/settings.json` con allow/deny, y `.gitignore` raíz
+actualizado. La estructura del código no cambia desde la 1.2b.
 
-Quiero que prepares la rama `demo/1.3a` con un cambio mínimo: añadir
-un script de ejemplo en scripts/ que muestre cómo se usaría Claude
-Code en modo one-shot dentro de un hook de pre-commit. NO se instala
-activamente, solo queda como ejemplo.
+Quiero que prepares la rama `demo/1.3a-after` con un cambio mínimo:
+añadir un script de ejemplo en `ordermanagement/scripts/` que muestre cómo se
+usaría Claude Code en modo one-shot dentro de un hook de pre-commit. NO se
+instala activamente, solo queda como ejemplo.
 
 # Lo que necesito
 
 Cuatro tareas:
 
-## Tarea 1: crear la rama
+## Tarea 1: crear las ramas
 
 ```powershell
-git checkout demo/1.2b
+git checkout demo/1.2b-after
 git pull
-git checkout -b demo/1.3a
+git checkout -b demo/1.3a-before
+git checkout -b demo/1.3a-after
 ```
 
-## Tarea 2: crear scripts/audit-staged.sh
+(La rama `demo/1.3a-before` queda idéntica a `demo/1.2b-after`; el screencast
+arranca de ahí. Todo el cambio del repo va en `-after`.)
 
-Si la carpeta `scripts/` no existe, créala.
+## Tarea 2: crear `ordermanagement/scripts/audit-staged.sh`
 
-Contenido del fichero `scripts/audit-staged.sh`:
+Si la carpeta `ordermanagement/scripts/` no existe, créala.
+
+Contenido del fichero `ordermanagement/scripts/audit-staged.sh`:
 
 ```bash
 #!/bin/bash
@@ -227,18 +231,19 @@ fi
 Localiza la línea:
 
 ```
-- [ ] demo/1.3a — Tres modos de uso, slash commands, /compact
+- [ ] demo/1.3a-before / demo/1.3a-after — Tres modos de uso, slash commands, /compact
 ```
 
 Y cámbiala por:
 
 ```
-- [x] **demo/1.3a** — Tres modos de uso, slash commands, /compact
+- [x] **demo/1.3a-before / demo/1.3a-after** — Tres modos de uso, slash commands, /compact
 ```
 
 ## Tarea 4: verificar y commitear
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 dotnet build
 ```
 
@@ -246,29 +251,31 @@ Esperado: 0 warnings, 0 errors. (El script no afecta al build pero
 verificamos que no hemos roto nada accidentalmente.)
 
 ```powershell
-git add scripts/audit-staged.sh docs/DEMOS.md
-git commit -m "demo/1.3a: script de ejemplo para audit pre-commit"
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/scripts/audit-staged.sh docs/DEMOS.md
+git commit -m "demo/1.3a-after: script de ejemplo para audit pre-commit"
 ```
 
 NO hagas push.
 
 # Restricciones
 
-- NO instales el script activamente en .git/hooks/. Solo queda en scripts/
-  como ejemplo. Los hooks reales se cubren en el módulo 3 (3.3a).
+- NO instales el script activamente en .git/hooks/. Solo queda en
+  `ordermanagement/scripts/` como ejemplo. Los hooks reales se cubren
+  en el módulo 3 (3.3a).
 - NO añadas skills, subagentes ni hooks de Claude Code (los del módulo 3).
 - NO toques el código de la app, ni los .csproj, ni Program.cs.
-- NO modifiques CLAUDE.md ni .claude/settings.json (vienen de la 1.2b).
-- NO modifiques README.md.
+- NO modifiques `ordermanagement/CLAUDE.md` ni `ordermanagement/.claude/settings.json` (vienen de la 1.2b).
+- NO modifiques README.md (ni el del curso ni el de `ordermanagement/`).
 - El script debe ser bash compatible con Git for Windows.
 
 # Cuando termines, dime
 
-1. Que la rama demo/1.3a está creada desde demo/1.2b.
-2. Que scripts/audit-staged.sh está creado.
+1. Que las ramas demo/1.3a-before y demo/1.3a-after están creadas desde demo/1.2b-after.
+2. Que `ordermanagement/scripts/audit-staged.sh` está creado en demo/1.3a-after.
 3. Que docs/DEMOS.md tiene la 1.3a marcada.
 4. Que el build pasa.
-5. Que el commit está hecho.
+5. Que el commit está hecho en demo/1.3a-after.
 
 Si tienes dudas, para y pregúntame.
 ````
