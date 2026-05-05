@@ -174,15 +174,15 @@ el screencast desde demo/1.3b-before.
 
 # Contexto
 
-Estoy en la rama `demo/1.3b-before` del repo `ordermanagement`. La rama
-parte de `demo/1.3a-after` y tiene todo lo de las demos anteriores
-(CLAUDE.md, .claude/settings.json con allow/deny, scripts/audit-staged.sh)
-pero NO tiene aún la feature de cancelación.
+Estoy en la rama `demo/1.3b-before` del repo del curso `F-004-ClaudeCode`.
+La rama parte de `demo/1.3a-after` y tiene todo lo de las demos anteriores
+en `ordermanagement/` (`CLAUDE.md`, `.claude/settings.json` con allow/deny,
+`scripts/audit-staged.sh`) pero NO tiene aún la feature de cancelación.
 
 Quiero que prepares la rama `demo/1.3b-after` desde `demo/1.3b-before`
 con la feature de cancelación COMPLETA, respetando las convenciones
-del CLAUDE.md y el patrón del resto del proyecto (excepciones tipadas,
-PascalCase, MediatR, etc.).
+del `ordermanagement/CLAUDE.md` y el patrón del resto del proyecto
+(excepciones tipadas, PascalCase, MediatR, etc.).
 
 # Lo que necesito
 
@@ -197,7 +197,7 @@ git checkout -b demo/1.3b-after
 
 ## Tarea 2: crear la excepción tipada
 
-Crea `src/OrderManagement.Application/Exceptions/InvalidOrderStateException.cs`
+Crea `ordermanagement/src/OrderManagement.Application/Exceptions/InvalidOrderStateException.cs`
 siguiendo el patrón de `CustomerNotFoundException` y `OrderNotFoundException`:
 hereda de Exception, recibe `orderId` y `currentState` (de tipo
 `OrderManagement.Domain.Enums.OrderStatus`) en el constructor, mensaje
@@ -206,7 +206,7 @@ ambas propiedades expuestas como `public {get;}`.
 
 ## Tarea 3: refactorizar CancelOrderHandler
 
-Modifica `src/OrderManagement.Application/Handlers/CancelOrderHandler.cs`:
+Modifica `ordermanagement/src/OrderManagement.Application/Handlers/CancelOrderHandler.cs`:
 donde lanza `InvalidOperationException(...)`, sustitúyelo por
 `InvalidOrderStateException(order.Id, order.Status)`. El resto del handler
 (la condición `OrderStatus.Pending or OrderStatus.Confirmed`, el
@@ -215,7 +215,7 @@ se mantiene igual.
 
 ## Tarea 4: añadir endpoint cancel + actualizar DEMOS.md + commit
 
-Añade al final de `OrdersController.cs` un método nuevo:
+Añade al final de `ordermanagement/src/OrderManagement.Api/Controllers/OrdersController.cs` un método nuevo:
 - `[HttpPost("{id:int}/cancel")]`
 - Firma: `public async Task<IActionResult> Cancel(int id, CancellationToken ct)`
 - Despacha `new CancelOrderCommand(id)` con `_mediator.Send(...)`.
@@ -225,15 +225,15 @@ Añade al final de `OrdersController.cs` un método nuevo:
 
 Actualiza `docs/DEMOS.md`:
 ```
-- [x] **demo/1.3b** — Workflow completo: feature de cancelación end-to-end
+- [x] **demo/1.3b-before / demo/1.3b-after** — Workflow completo: feature de cancelación end-to-end
 ```
 
-Verifica con `dotnet build` (0 warnings, 0 errors) y commit:
+Verifica con `dotnet build` desde `ordermanagement/` (0 warnings, 0 errors) y commit desde la raíz del repo del curso:
 
 ```powershell
-git add src/OrderManagement.Application/Exceptions/InvalidOrderStateException.cs `
-        src/OrderManagement.Application/Handlers/CancelOrderHandler.cs `
-        src/OrderManagement.Api/Controllers/OrdersController.cs `
+git add ordermanagement/src/OrderManagement.Application/Exceptions/InvalidOrderStateException.cs `
+        ordermanagement/src/OrderManagement.Application/Handlers/CancelOrderHandler.cs `
+        ordermanagement/src/OrderManagement.Api/Controllers/OrdersController.cs `
         docs/DEMOS.md
 git commit -m "demo/1.3b-after: feature de cancelación de pedidos end-to-end"
 ```
