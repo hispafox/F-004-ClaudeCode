@@ -55,3 +55,85 @@ En la demo 2.1b vamos a profundizar en la **descripción como switch**
 — la pieza que decide si un skill se activa o no cuando el usuario
 hace una petición. Y en la 2.2a empezamos a crear nuestro primer skill
 propio: un generador de componentes Angular standalone para OrderManagement.
+
+---
+
+# Demo 2.1b — Experimento de la descripción como switch
+
+## Contexto
+
+En esta demo se construyó un skill experimental `find-handler` para
+ilustrar cómo la descripción decide la activación. Se probaron cuatro
+versiones de la descripción con peticiones de vocabulario variado.
+
+## Las cuatro versiones probadas
+
+### Versión 1 (mala — anti-patrón "demasiado vaga")
+
+```yaml
+description: Ayuda con código
+```
+
+Resultado esperado: el skill no se activa NUNCA porque la descripción
+no coincide con ningún caso de uso específico.
+
+### Versión 2 (mala — anti-patrón "solo dice qué hace, no cuándo")
+
+```yaml
+description: Localiza el handler de un comando MediatR
+```
+
+Resultado esperado: activa solo cuando la petición incluye literalmente
+"handler de un comando MediatR". Falla cuando se pregunta "dónde está
+el handler" o variantes naturales.
+
+### Versión 3 (mejor — añade trigger pero específico)
+
+```yaml
+description: Localiza handlers MediatR del proyecto. Usar cuando el
+  usuario diga "busca el handler de X".
+```
+
+Resultado esperado: activa con "busca el handler". Falla con "encuentra
+el handler", "dónde está el handler", "muestra el handler". Es el caso
+A del manual línea 222: trigger demasiado específico.
+
+### Versión 4 (buena — fórmula completa)
+
+```yaml
+description: Localiza handlers MediatR (clases que implementan
+  IRequestHandler) en el proyecto OrderManagement. Usar cuando el usuario
+  pida buscar, localizar, encontrar o mostrar el handler de un comando
+  o query, o use sinónimos como "dónde está", "muéstrame" o "busca"
+  referidos a handlers.
+```
+
+Resultado esperado: activa con la mayoría de las variantes naturales.
+Triggers explícitos en abanico ("buscar, localizar, encontrar, mostrar",
+"dónde está, muéstrame, busca"), contexto del proyecto explícito
+("MediatR, OrderManagement"), y referencia al patrón concreto
+(IRequestHandler).
+
+## Hallazgos del experimento
+
+(esta sección la rellena Pedro durante el screencast con los resultados
+reales que obtenga)
+
+- Versión 1: …
+- Versión 2: …
+- Versión 3: …
+- Versión 4: …
+
+## Lecciones extraídas
+
+1. **La descripción es el switch.** Sin descripción concreta, el skill
+   es invisible aunque el cuerpo sea perfecto.
+2. **La fórmula de tres ingredientes funciona:** verbo claro,
+   disparadores en abanico, tercera persona.
+3. **El truco para iterar:** preguntarle al agente "¿qué skill has
+   usado?" tras cada petición. Es la única forma fiable de saber si
+   el skill se activó.
+4. **La activación es probabilística.** El 100% no es objetivo. La meta
+   es ser fiable cuando importa.
+5. **Caso A del manual aplicado en directo:** trigger demasiado
+   específico. La V3 lo materializa.
