@@ -4,7 +4,7 @@
 > **Archivo:** `demo_M03-S3.1b-subagentes-custom-patrones-windows-v1.md`
 > **Branch before:** `demo/3.1b-before`  (con `.Result` bloqueante deliberado en CancelOrderHandler para que el reviewer lo cace)
 > **Branch after:**  `demo/3.1b-after`   (estado final pre-cocinado: 2 subagentes + `.Result` revertido)
-> **Branch parent:** `demo/3.1a-after`
+> **Branch parent:** `demo/3.1a`
 > **Tiempo total estimado:** ~28-32 minutos
 > **Tipo:** Demo de construcción y aplicación (CÓDIGO). **Es la primera demo del curso donde el alumno ve construir subagentes propios — el `repo-explorer` (especialización del built-in Explore con rol y formato concretos para OrderManagement) y el `dotnet-reviewer` (revisor crítico con tools restringidas).** Ambos se prueban en directo. Se cubren los 4 casos típicos (Explorer, Reviewer, Tester, Planner) — los dos primeros se construyen, los otros dos se muestran como referencia. Y se aplican los anti-patrones del manual. Sigue el patrón **before/after** definido en [M0.2](demo_M00-S0.2-patron-before-after-windows-v3.md).
 > **Plataforma:** Windows 11 (PowerShell 7).
@@ -60,9 +60,9 @@ Punto de partida del screencast.
 demo/3.1b-before
 ```
 
-**Parte de:** `demo/3.1a-after`.
+**Parte de:** `demo/3.1a`.
 
-**Estado del repo:** todo lo de `demo/3.1a-after` (cuatro skills, `CLAUDE.md`, los hallazgos del experimento de contaminación en `docs/subagentes-explorados.md`) más un único cambio commiteado: en `src/OrderManagement.Application/Handlers/CancelOrderHandler.cs` la primera llamada async se ha convertido a `.Result` bloqueante. **Anti-patrón deliberado** — está commiteado para que el `dotnet-reviewer` lo cace cuando se ejecute en el screencast con `git diff HEAD~1 HEAD`. **No hay `.claude/agents/`** todavía: la pieza viva es construirla.
+**Estado del repo:** todo lo de `demo/3.1a` (cuatro skills, `CLAUDE.md`, los hallazgos del experimento de contaminación en `docs/subagentes-explorados.md`) más un único cambio commiteado: en `src/OrderManagement.Application/Handlers/CancelOrderHandler.cs` la primera llamada async se ha convertido a `.Result` bloqueante. **Anti-patrón deliberado** — está commiteado para que el `dotnet-reviewer` lo cace cuando se ejecute en el screencast con `git diff HEAD~1 HEAD`. **No hay `.claude/agents/`** todavía: la pieza viva es construirla.
 
 > El formador hace `git checkout demo/3.1b-before` antes de empezar a grabar.
 
@@ -93,7 +93,7 @@ demo/3.1b-after
 
 ## 5. Estado del repo al hacer `git checkout demo/3.1b-before`
 
-Idéntico a `demo/3.1a-after`, con un único cambio: el `.Result` deliberadamente introducido en `CancelOrderHandler.cs`:
+Idéntico a `demo/3.1a`, con un único cambio: el `.Result` deliberadamente introducido en `CancelOrderHandler.cs`:
 
 ```
 ordermanagement/
@@ -150,13 +150,13 @@ ordermanagement/
 
 ## 6a. Prompt para Claude Code — preparar `demo/3.1b-before`
 
-> Crea la rama de partida del screencast desde `demo/3.1a-after` con UN cambio commiteado: el `.Result` bloqueante deliberado en `CancelOrderHandler` para que el `dotnet-reviewer` lo cace con `git diff HEAD~1 HEAD`. **No crea `.claude/agents/` ni los subagentes** — esa es la pieza viva.
+> Crea la rama de partida del screencast desde `demo/3.1a` con UN cambio commiteado: el `.Result` bloqueante deliberado en `CancelOrderHandler` para que el `dotnet-reviewer` lo cace con `git diff HEAD~1 HEAD`. **No crea `.claude/agents/` ni los subagentes** — esa es la pieza viva.
 
 ````
 Estoy preparando la demo 3.1b del curso de Claude Code (subagentes custom:
 repo-explorer y dotnet-reviewer). Sigue el patrón before/after (ver demo M0.2).
 
-Quiero que prepares la rama `demo/3.1b-before` desde `demo/3.1a-after`
+Quiero que prepares la rama `demo/3.1b-before` desde `demo/3.1a`
 con un único cambio commiteado: el .Result bloqueante deliberado en
 CancelOrderHandler para que durante el screencast el dotnet-reviewer
 recién construido lo cace con `git diff HEAD~1 HEAD`.
@@ -168,7 +168,7 @@ Tres tareas:
 ## Tarea 1: crear la rama
 
 ```powershell
-git checkout demo/3.1a-after
+git checkout demo/3.1a
 git pull
 git checkout -b demo/3.1b-before
 ```
@@ -176,7 +176,7 @@ git checkout -b demo/3.1b-before
 ## Tarea 2: introducir el .Result bloqueante en CancelOrderHandler
 
 Localiza el método Handle de
-`src/OrderManagement.Application/Handlers/CancelOrderHandler.cs`.
+`ordermanagement/src/OrderManagement.Application/Handlers/CancelOrderHandler.cs`.
 Encuentra la primera llamada async y conviértela en `.Result` bloqueante.
 Por ejemplo, si hay:
 
@@ -195,13 +195,15 @@ Solo UNA llamada. El resto del handler intacto.
 ## Tarea 3: verificar build y commitear
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 dotnet build
 ```
 
 Esperado: 0 warnings, 0 errors. (El .Result compila aunque sea anti-patrón.)
 
 ```powershell
-git add src/OrderManagement.Application/Handlers/CancelOrderHandler.cs
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/src/OrderManagement.Application/Handlers/CancelOrderHandler.cs
 git commit -m "demo/3.1b-before: anti-patrón .Result bloqueante en CancelOrderHandler (deliberado para el screencast)"
 ```
 
@@ -216,7 +218,7 @@ NO hagas push.
 
 # Cuando termines, dime
 
-1. Que la rama demo/3.1b-before está creada desde demo/3.1a-after.
+1. Que la rama demo/3.1b-before está creada desde demo/3.1a.
 2. Que el .Result está introducido y commiteado.
 3. Que `git log --oneline -1` muestra el commit del anti-patrón.
 4. Que dotnet build pasa.
@@ -236,7 +238,7 @@ y el revert del .Result que el formador construirá / aplicará en vivo.
 # Contexto
 
 Estoy en la rama `demo/3.1b-before` del repo `ordermanagement`. La rama
-parte de `demo/3.1a-after` y tiene UN único cambio commiteado: el
+parte de `demo/3.1a` y tiene UN único cambio commiteado: el
 .Result bloqueante en CancelOrderHandler. NO tiene `.claude/agents/`.
 
 Quiero que prepares la rama `demo/3.1b-after` desde `demo/3.1b-before`
@@ -254,7 +256,7 @@ git checkout demo/3.1b-before
 git checkout -b demo/3.1b-after
 ```
 
-## Tarea 2: crear `.claude/agents/repo-explorer.md`
+## Tarea 2: crear `ordermanagement/.claude/agents/repo-explorer.md`
 
 Subagente especializado en exploración estructural del proyecto OrderManagement.
 
@@ -265,7 +267,7 @@ Subagente especializado en exploración estructural del proyecto OrderManagement
   - `model: haiku`
 - Body: system prompt que define el rol, el formato de salida estructurado (5 secciones: estructura, dependencias, patrones detectados, anti-patrones emergentes, hallazgos accionables), y la restricción de NUNCA escribir.
 
-## Tarea 3: crear `.claude/agents/dotnet-reviewer.md`
+## Tarea 3: crear `ordermanagement/.claude/agents/dotnet-reviewer.md`
 
 Subagente revisor crítico de código C#/.NET.
 
@@ -285,16 +287,17 @@ Vuelve a poner el `await` original en `CancelOrderHandler.cs`. Equivalente al fi
 Marca la 3.1b en `docs/DEMOS.md`:
 
 ```
-- [x] **demo/3.1b** — Subagentes custom: repo-explorer y dotnet-reviewer
+- [x] **demo/3.1b-before / demo/3.1b-after** — Subagentes custom: repo-explorer y dotnet-reviewer
 ```
 
 Añade al final de `docs/subagentes-explorados.md` una sección «### Subagentes propios construidos en 3.1b» con dos bullets que resuman cada uno (modelo, tools, rol).
 
-Verifica con `dotnet build` (0 warnings, 0 errors) y commit:
+Verifica con `dotnet build` desde `ordermanagement/` (0 warnings, 0 errors) y commit desde la raíz del curso:
 
 ```powershell
-git add .claude/agents `
-        src/OrderManagement.Application/Handlers/CancelOrderHandler.cs `
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/.claude/agents `
+        ordermanagement/src/OrderManagement.Application/Handlers/CancelOrderHandler.cs `
         docs/DEMOS.md docs/subagentes-explorados.md
 git commit -m "demo/3.1b-after: subagentes repo-explorer y dotnet-reviewer + revert .Result"
 ```
@@ -326,7 +329,7 @@ Si tienes dudas, para y pregúntame.
 ## 7. Artefactos que Claude Code debe generar
 
 ```
-✓ Rama demo/3.1b-before (parte de demo/3.1a-after) con UN commit:
+✓ Rama demo/3.1b-before (parte de demo/3.1a) con UN commit:
   └── src/OrderManagement.Application/Handlers/CancelOrderHandler.cs
       (anti-patrón .Result deliberado, commiteado para que el reviewer
        lo cace con git diff HEAD~1 HEAD)
