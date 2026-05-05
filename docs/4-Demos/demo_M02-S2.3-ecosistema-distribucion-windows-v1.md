@@ -3,7 +3,7 @@
 > **Versión:** v1 | **Módulo:** 2 | **Sub:** 2.3 | **Estado:** ✅ Versión final
 > **Archivo:** `demo_M02-S2.3-ecosistema-distribucion-windows-v1.md`
 > **Branch destino:** `demo/2.3`
-> **Branch de partida:** `demo/2.2c`
+> **Branch de partida:** `demo/2.2c-after`
 > **Tiempo total estimado:** ~26-30 minutos
 > **Tipo:** Demo de exploración + auditoría. **Cierra el módulo 2 entero.** El alumno sale del taller individual y ve el ecosistema: skills bundled de Claude Code, skills oficiales de Anthropic, comunidad (Antigravity, Vercel Labs, Superpowers, etc.), plugins, y la pieza más importante — **la auditoría rápida de seguridad** antes de instalar nada de terceros, con el caso real de Snyk/ToxicSkills materializado.
 > **Plataforma:** Windows 11 (PowerShell 7).
@@ -56,7 +56,7 @@ Y dos cosas que tienen que **NO quedar** en su cabeza:
 ## 3. Branch de partida
 
 ```
-demo/2.2c
+demo/2.2c-after
 ```
 
 > Estado actual: el repo con tres skills propios — `angular-component` v4 con assets/ y scripts/, `commit-style` promovido de personal, y `db-reset` con `disable-model-invocation`. Componentes `OrderSummary` y `OrderFilter` generados como prueba en `frontend/src/app/components/`. Todo commiteado en la 2.2c.
@@ -80,7 +80,7 @@ demo/2.3
 
 ## 5. Estado del repo al empezar
 
-Idéntico a `demo/2.2c`:
+Idéntico a `demo/2.2c-after`:
 
 ```
 ordermanagement/
@@ -145,7 +145,7 @@ seguridad con el estudio de Snyk.
 
 # Contexto
 
-Estoy en la rama `demo/2.2c` del repo `ordermanagement`. La rama tiene
+Estoy en la rama `demo/2.2c-after` del repo `ordermanagement`. La rama tiene
 tres skills propios: angular-component v4, commit-style, db-reset. El
 frontend Angular tiene los componentes OrderSummary y OrderFilter
 generados como prueba.
@@ -163,7 +163,7 @@ Cuatro tareas:
 ## Tarea 1: crear la rama
 
 ```powershell
-git checkout demo/2.2c
+git checkout demo/2.2c-after
 git pull
 git checkout -b demo/2.3
 ```
@@ -280,12 +280,14 @@ Para cada script en `scripts/`:
 ## Tarea 4: verificar y commitear
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 dotnet build
 ```
 
 Esperado: 0 warnings, 0 errors.
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode
 git add docs/DEMOS.md docs/auditoria-skills-comunidad.md
 git commit -m "demo/2.3: marca demo y plantilla de auditoría (pre-grabación)"
 ```
@@ -303,7 +305,7 @@ NO hagas push.
 
 # Cuando termines, dime
 
-1. Que la rama demo/2.3 está creada desde demo/2.2c.
+1. Que la rama demo/2.3 está creada desde demo/2.2c-after.
 2. Que docs/DEMOS.md tiene 2.3 marcada.
 3. Que docs/auditoria-skills-comunidad.md está creado.
 4. Que el build pasa.
@@ -317,7 +319,7 @@ Si tienes dudas, para y pregúntame.
 ## 7. Artefactos que Claude Code debe generar
 
 ```
-✓ Rama nueva: demo/2.3 (parte de demo/2.2c)
+✓ Rama nueva: demo/2.3 (parte de demo/2.2c-after)
 ✓ docs/DEMOS.md con 2.3 marcada como [x]
 ✓ docs/auditoria-skills-comunidad.md con la plantilla de los 5 pasos
 ✓ Verificación de build OK: dotnet build limpio
