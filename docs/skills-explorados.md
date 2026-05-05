@@ -137,3 +137,29 @@ reales que obtenga)
    es ser fiable cuando importa.
 5. **Caso A del manual aplicado en directo:** trigger demasiado
    específico. La V3 lo materializa.
+
+---
+
+### Decisiones operativas (2.2c)
+
+- **Cuándo usar `disable-model-invocation: true`:** solo en skills que sean (1)
+  destructivos (borran datos), (2) caros (consumen mucho tokens o llaman a
+  APIs externas con coste), o (3) experimentales (todavía no validados). El
+  ejemplo del repo es `db-reset`. Aplicarlo a un skill útil lo anula —
+  el modelo no lo va a invocar nunca por sí mismo, así que el alumno tiene
+  que invocarlo siempre con `/<name>` explícito.
+
+- **Regla personal → proyecto:** un skill nuevo se cocina primero en
+  `~/.claude/skills/` (scope personal del dev), se valida durante 1-2 semanas
+  en el flujo real, y solo cuando aporta valor reproducible se promueve a
+  `.claude/skills/` (scope proyecto, va a git con el equipo). Es lo que se
+  hizo con `commit-style` en esta demo. Promover antes de validar contamina
+  el repo del equipo con experimentos a medio cocer.
+
+- **Las 5 reglas técnicas críticas** que NO son negociables:
+  1. El fichero se llama `SKILL.md` (case-sensitive).
+  2. El nombre de la carpeta del skill va en kebab-case y coincide con el
+     campo `name` del frontmatter.
+  3. No empezar el `name` por `claude` ni `anthropic` (prefijos reservados).
+  4. Sin XML en el frontmatter (es YAML estricto).
+  5. La `description` no pasa de 1024 caracteres.

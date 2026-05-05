@@ -26,7 +26,7 @@ rama única `demo/X.Y` (los cambios del screencast se descartan al final).
 - [x] **demo/2.1b** — La descripción como switch: experimento con 4 versiones (CONCEPTUAL, rama única)
 - [x] **demo/2.2a-before / demo/2.2a-after** — Primer skill creado: angular-component v1 y v2
 - [x] **demo/2.2b-before / demo/2.2b-after** — angular-component v3 (assets) y v4 (scripts)
-- [ ] demo/2.2c-before / demo/2.2c-after — Skill con scopes user vs proyecto
+- [x] **demo/2.2c-before / demo/2.2c-after** — Control, scopes y cierre del bloque de creación
 - [ ] demo/2.3 — Skill desplegado al equipo (CONCEPTUAL, rama única)
 
 ## Módulo 3 — Agent harness
