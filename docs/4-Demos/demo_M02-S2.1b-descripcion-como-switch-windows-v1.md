@@ -49,7 +49,7 @@ Y dos cosas que tienen que **NO quedar** en su cabeza:
 demo/2.1a
 ```
 
-> Estado actual: igual que `demo/1.3b` excepto por la marca de la 2.1a en `docs/DEMOS.md` y el fichero `docs/skills-explorados.md`. **No hay ningún `.claude/skills/` en el repo todavía**. Eso es importante porque vamos a crear uno experimental durante la demo y veremos cómo Claude Code lo detecta automáticamente.
+> Estado actual: igual que `demo/1.3b-after` excepto por la marca de la 2.1a en `docs/DEMOS.md` y el fichero `docs/skills-explorados.md`. **No hay ningún `.claude/skills/` en el repo todavía**. Eso es importante porque vamos a crear uno experimental durante la demo y veremos cómo Claude Code lo detecta automáticamente.
 
 ---
 
@@ -251,12 +251,14 @@ reales que obtenga)
 ## Tarea 4: verificar y commitear
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 dotnet build
 ```
 
 Esperado: 0 warnings, 0 errors.
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode
 git add docs/DEMOS.md docs/skills-explorados.md
 git commit -m "demo/2.1b: experimento descripción como switch (pre-grabación)"
 ```
