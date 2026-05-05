@@ -200,9 +200,9 @@ git checkout demo/1.2b-before
 git checkout -b demo/1.2b-after
 ```
 
-## Tarea 2: crear CLAUDE.md en la raíz
+## Tarea 2: crear `ordermanagement/CLAUDE.md`
 
-Contenido exacto del fichero (140-160 líneas):
+Contenido exacto del fichero (140-160 líneas, vive dentro de la subcarpeta del proyecto demo, no en la raíz del repo del curso):
 
 ```markdown
 # Proyecto: OrderManagement
@@ -287,9 +287,9 @@ Proyecto demo del curso Claude Code para devs .NET + Angular.
   los endpoints están sin describir.
 ```
 
-## Tarea 3: crear .claude/settings.json
+## Tarea 3: crear `ordermanagement/.claude/settings.json`
 
-Crea la carpeta `.claude/` si no existe. Contenido del fichero:
+Crea la carpeta `ordermanagement/.claude/` si no existe. Contenido del fichero:
 
 ```json
 {
@@ -342,14 +342,14 @@ Crea la carpeta `.claude/` si no existe. Contenido del fichero:
 }
 ```
 
-## Tarea 4: actualizar .gitignore
+## Tarea 4: actualizar el `.gitignore` raíz del repo del curso
 
-Añade al final del .gitignore actual estas líneas (si no están ya):
+Añade al final del `.gitignore` raíz de `F-004-ClaudeCode` (no dentro de `ordermanagement/`) estas líneas:
 
 ```
-# Claude Code
-.claude/settings.local.json
-.claude/cache/
+# Claude Code (proyecto demo)
+ordermanagement/.claude/settings.local.json
+ordermanagement/.claude/cache/
 ```
 
 ## Tarea 5: actualizar docs/DEMOS.md
@@ -357,29 +357,31 @@ Añade al final del .gitignore actual estas líneas (si no están ya):
 Localiza la línea:
 
 ```
-- [ ] demo/1.2b — CLAUDE.md y settings.json para .NET 10 + Angular 19
+- [ ] demo/1.2b-before / demo/1.2b-after — CLAUDE.md y settings.json para .NET 10 + Angular 19
 ```
 
 Y cámbiala por:
 
 ```
-- [x] **demo/1.2b** — CLAUDE.md y settings.json para .NET 10 + Angular 19
+- [x] **demo/1.2b-before / demo/1.2b-after** — CLAUDE.md y settings.json para .NET 10 + Angular 19
 ```
 
 ## Tarea 6: verificar build y commitear
 
-Antes de commitear, verifica que el proyecto sigue compilando:
+Antes de commitear, verifica que el proyecto sigue compilando (desde `ordermanagement/`):
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 dotnet build
 ```
 
 Esperado: 0 warnings, 0 errors.
 
-Si todo bien, commit único:
+Si todo bien, commit único (desde la raíz del repo del curso):
 
 ```powershell
-git add CLAUDE.md .claude/settings.json .gitignore docs/DEMOS.md
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/CLAUDE.md ordermanagement/.claude/settings.json .gitignore docs/DEMOS.md
 git commit -m "demo/1.2b-after: CLAUDE.md, settings.json y permisos para OrderManagement"
 ```
 
