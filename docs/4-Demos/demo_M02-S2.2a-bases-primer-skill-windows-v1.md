@@ -213,7 +213,7 @@ git checkout demo/2.2a-before
 git checkout -b demo/2.2a-after
 ```
 
-## Tarea 2: crear `.claude/skills/angular-component/SKILL.md` v2
+## Tarea 2: crear `ordermanagement/.claude/skills/angular-component/SKILL.md` v2
 
 Crea el SKILL.md con frontmatter y cuerpo que codifique las convenciones
 reales del equipo OrderManagement para componentes Angular standalone con
@@ -233,13 +233,14 @@ description bajo 1024 chars, sin `README.md` dentro del skill).
 Marca la 2.2a en `docs/DEMOS.md`:
 
 ```
-- [x] **demo/2.2a** — Primer skill propio: angular-component v1 y v2
+- [x] **demo/2.2a-before / demo/2.2a-after** — Primer skill propio: angular-component v1 y v2
 ```
 
-Verifica con `dotnet build` (0 warnings, 0 errors) y commit:
+Verifica con `dotnet build` desde `ordermanagement/` (0 warnings, 0 errors) y commit desde la raíz del repo del curso:
 
 ```powershell
-git add .claude/skills/angular-component docs/DEMOS.md
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/.claude/skills/angular-component docs/DEMOS.md
 git commit -m "demo/2.2a-after: skill angular-component v2 con convenciones del equipo"
 ```
 
@@ -257,7 +258,7 @@ NO hagas push.
 # Cuando termines, dime
 
 1. Que la rama demo/2.2a-after está creada desde demo/2.2a-before.
-2. Que `.claude/skills/angular-component/SKILL.md` existe con frontmatter
+2. Que `ordermanagement/.claude/skills/angular-component/SKILL.md` existe con frontmatter
    y los bloques de la v2.
 3. Que docs/DEMOS.md está marcado.
 4. Que dotnet build pasa.
