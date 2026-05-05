@@ -249,12 +249,14 @@ system prompt.
 ## Tarea 4: verificar y commitear
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 dotnet build
 ```
 
 Esperado: 0 warnings, 0 errors.
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode
 git add docs/DEMOS.md docs/subagentes-explorados.md
 git commit -m "demo/3.1a: marca demo y notas pre-grabación de subagentes built-in"
 ```
