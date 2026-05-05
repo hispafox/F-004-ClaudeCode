@@ -18,7 +18,7 @@ rama única `demo/X.Y` (los cambios del screencast se descartan al final).
 - [x] **demo/1.2a-before / demo/1.2a-after** — Instalación, autenticación y primer arranque
 - [x] **demo/1.2b-before / demo/1.2b-after** — CLAUDE.md y settings.json para .NET 10 + Angular 19
 - [x] **demo/1.3a-before / demo/1.3a-after** — Tres modos de uso, slash commands, /compact
-- [ ] demo/1.3b-before / demo/1.3b-after — Workflow completo con permisos sanos
+- [x] **demo/1.3b-before / demo/1.3b-after** — Workflow completo: feature de cancelación end-to-end
 
 ## Módulo 2 — Skills
 

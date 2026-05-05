@@ -19,8 +19,7 @@ public class CancelOrderHandler : IRequestHandler<CancelOrderCommand>
 
         if (order.Status is not (OrderStatus.Pending or OrderStatus.Confirmed))
         {
-            throw new InvalidOperationException(
-                $"Order {order.Id} is in state {order.Status} and cannot be cancelled.");
+            throw new InvalidOrderStateException(order.Id, order.Status);
         }
 
         order.Status = OrderStatus.Cancelled;

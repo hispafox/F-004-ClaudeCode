@@ -92,4 +92,22 @@ public class OrdersController : ControllerBase
         await repo.DeleteAsync(id, ct);
         return NoContent();
     }
+
+    [HttpPost("{id:int}/cancel")]
+    public async Task<IActionResult> Cancel(int id, CancellationToken ct)
+    {
+        try
+        {
+            await _mediator.Send(new CancelOrderCommand(id), ct);
+            return NoContent();
+        }
+        catch (OrderNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+        catch (InvalidOrderStateException ex)
+        {
+            return UnprocessableEntity(new { message = ex.Message });
+        }
+    }
 }
