@@ -175,7 +175,7 @@ git checkout -b demo/3.2a-before
 
 ## Tarea 2: introducir el `catch(Exception)` en CreateOrderHandler
 
-Localiza el método Handle de `src/OrderManagement.Application/Handlers/CreateOrderHandler.cs`
+Localiza el método Handle de `ordermanagement/src/OrderManagement.Application/Handlers/CreateOrderHandler.cs`
 y envuelve el cuerpo del método en un try/catch genérico que silencia
 errores con Console.WriteLine y devuelve 0. Esquema esperado:
 
@@ -203,7 +203,8 @@ dotnet build
 Esperado: 0 warnings, 0 errors.
 
 ```powershell
-git add src/OrderManagement.Application/Handlers/CreateOrderHandler.cs
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/src/OrderManagement.Application/Handlers/CreateOrderHandler.cs
 git commit -m "demo/3.2a-before: anti-patrón catch(Exception) silencioso (deliberado para el loop)"
 ```
 
@@ -258,12 +259,12 @@ git checkout demo/3.2a-before
 git checkout -b demo/3.2a-after
 ```
 
-## Tarea 2: actualizar `.claude/skills/angular-component/SKILL.md` con `context: fork`
+## Tarea 2: actualizar `ordermanagement/.claude/skills/angular-component/SKILL.md` con `context: fork`
 
 Añade `context: fork` al frontmatter del SKILL.md existente. Mantén el
 resto del frontmatter (`name`, `description`) y el body intactos.
 
-## Tarea 3: crear `.claude/skills/pre-commit-check/SKILL.md`
+## Tarea 3: crear `ordermanagement/.claude/skills/pre-commit-check/SKILL.md`
 
 Skill orquestador que invoca al subagente `dotnet-reviewer` antes de cada
 commit y aplica un loop validator → implementer con techo de 3 iteraciones:
@@ -289,18 +290,19 @@ al fix que el loop aplicaría al cazarlo.
 Marca la 3.2a en `docs/DEMOS.md`:
 
 ```
-- [x] **demo/3.2a** — Composición skill+subagente y loops con techo
+- [x] **demo/3.2a-before / demo/3.2a-after** — Composición skill+subagente y loops con techo
 ```
 
 Añade a `docs/subagentes-explorados.md` una sección «### Composición en 3.2a» que documente:
 - `angular-component` ahora con `context: fork`.
 - Skill nuevo `pre-commit-check` que orquesta `dotnet-reviewer` con loop techo=3.
 
-Verifica con `dotnet build` (0 warnings, 0 errors) y commit:
+Verifica con `dotnet build` desde `ordermanagement/` (0 warnings, 0 errors) y commit desde la raíz del curso:
 
 ```powershell
-git add .claude/skills `
-        src/OrderManagement.Application/Handlers/CreateOrderHandler.cs `
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/.claude/skills `
+        ordermanagement/src/OrderManagement.Application/Handlers/CreateOrderHandler.cs `
         docs/DEMOS.md docs/subagentes-explorados.md
 git commit -m "demo/3.2a-after: angular-component context:fork + pre-commit-check con loop"
 ```
