@@ -36,7 +36,7 @@ rama única `demo/X.Y` (los cambios del screencast se descartan al final).
 - [x] **demo/3.2a-before / demo/3.2a-after** — Orquestación: aislamiento, composición, loops
 - [x] **demo/3.2b-before / demo/3.2b-after** — Memoria, paralelo, agent teams
 - [x] **demo/3.3a-before / demo/3.3a-after** — Primer hook PostToolUse
-- [ ] demo/3.3b-before / demo/3.3b-after — Hooks completos
+- [x] **demo/3.3b-before / demo/3.3b-after** — Hooks completos
 
 ## Módulo 4 — Diseño integrado
 
