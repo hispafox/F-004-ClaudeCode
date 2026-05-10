@@ -43,10 +43,40 @@ formateado de forma idéntica al estado pre-cocinado en
 - **format-on-write** (PostToolUse / Write|Edit|MultiEdit) — auto-format
   para `.cs`, `.ts`, `.json`, `.md`. Construido en 3.3a.
 
-## Eventos cubiertos hasta ahora
+## Eventos cubiertos al cerrar el módulo 3
 
-(Se rellena durante el módulo 3.3.)
+- ✅ `PostToolUse` con matcher `Write|Edit|MultiEdit` (3.3a) → format-on-write
+- ✅ `PreToolUse` con matcher `Bash` (3.3b) → block-dangerous
+- ✅ `SessionEnd` (3.3b) → log-session
 
-## Lecciones extraídas
+## Hooks por scope al cerrar el módulo 3
 
-(Se rellena durante el módulo 3.3.)
+### User level (~/.claude/settings.json)
+
+- **block-dangerous** — viaja con vosotros a todos los repos. Bloquea
+  `rm -rf /`, `git push --force`, `DROP TABLE`, fork bombs, etc. con
+  `exit 2` (incluso en modo `--dangerously-skip-permissions`). No
+  entra a este repo: vive en la máquina del alumno.
+
+### Project level (`ordermanagement/.claude/settings.json`) — van a git con el repo
+
+- **format-on-write** (3.3a) — auto-formato al modificar ficheros
+  (`dotnet format` para `.cs`, `prettier` para `.json`/`.md`).
+- **log-session** (3.3b) — observabilidad básica. Anexa una línea
+  JSON por sesión a `ordermanagement/.claude/logs/sessions.jsonl`
+  (gitignored).
+
+## Lecciones extraídas (módulo 3.3 entero)
+
+1. **Hooks son código, no instrucción**. La diferencia con `CLAUDE.md`
+   y skills es absoluta — el agente no decide si pasan o no.
+2. **Empezad con dos hooks**: `format-on-write` (project) y
+   `block-dangerous` (user). Cubren el 80% del valor.
+3. **Exit 2 bloquea incluso en `--dangerously-skip-permissions`**.
+   Garantía real, no recomendación.
+4. **Mantened hooks bajo 500ms** salvo formateadores que tarden por
+   naturaleza (como `dotnet format`).
+5. **Observabilidad NO es opcional** para flujos serios. Sin logs
+   estructurados, debugging es adivinación.
+6. **`bash` explícito y `$CLAUDE_PROJECT_DIR`** son las dos claves
+   para hooks portables en Windows.

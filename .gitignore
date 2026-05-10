@@ -437,3 +437,6 @@ ordermanagement/.claude/cache/
 
 # Workflow state (context bank temporal de orquestaciones)
 ordermanagement/.claude/workflow-state/
+
+# Logs de observabilidad (locales por dev, no van a git)
+ordermanagement/.claude/logs/
