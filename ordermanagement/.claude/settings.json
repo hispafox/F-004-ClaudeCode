@@ -44,5 +44,18 @@
       "Write(./appsettings.Production.json)",
       "Write(./.env*)"
     ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/format-on-write.sh"
+          }
+        ]
+      }
+    ]
   }
 }
