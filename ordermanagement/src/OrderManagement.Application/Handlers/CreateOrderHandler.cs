@@ -24,38 +24,30 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, int>
 
     public async Task<int> Handle(CreateOrderCommand request, CancellationToken ct)
     {
-        try
+        var customer = await _customers.GetByIdAsync(request.CustomerId, ct)
+            ?? throw new CustomerNotFoundException(request.CustomerId);
+
+        var order = new Order
         {
-            var customer = await _customers.GetByIdAsync(request.CustomerId, ct)
-                ?? throw new CustomerNotFoundException(request.CustomerId);
+            CustomerId = customer.Id,
+            Items = request.Items
+                .Select(i => new OrderItem
+                {
+                    ProductName = i.ProductName,
+                    Quantity = i.Quantity,
+                    UnitPrice = i.UnitPrice
+                })
+                .ToList()
+        };
 
-            var order = new Order
-            {
-                CustomerId = customer.Id,
-                Items = request.Items
-                    .Select(i => new OrderItem
-                    {
-                        ProductName = i.ProductName,
-                        Quantity = i.Quantity,
-                        UnitPrice = i.UnitPrice
-                    })
-                    .ToList()
-            };
+        var id = await _orders.AddAsync(order, ct);
 
-            var id = await _orders.AddAsync(order, ct);
+        await _email.SendAsync(
+            customer.Email,
+            "Order received",
+            $"Your order {id} has been received.",
+            ct);
 
-            await _email.SendAsync(
-                customer.Email,
-                "Order received",
-                $"Your order {id} has been received.",
-                ct);
-
-            return id;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error creating order: {ex.Message}");
-            return 0;
-        }
+        return id;
     }
 }

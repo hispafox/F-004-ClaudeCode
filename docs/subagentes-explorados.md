@@ -84,3 +84,33 @@ deliberadamente un `.Result` bloqueante en `CancelOrderHandler.cs`. El
 formador construye los dos subagentes en directo, ejecuta el
 `dotnet-reviewer` sobre el diff, lo caza como CRÍTICO, y aplica el fix
 revertiendo a `await`.
+
+### Composición en 3.2a
+
+La 3.2a no añade subagentes nuevos, pero compone los de 3.1b en dos
+patrones distintos:
+
+- **Aislamiento por `context: fork`**: el skill `angular-component`
+  pasa de v4 sin aislamiento a v4 con `context: fork` en el frontmatter.
+  El skill lee plantillas y ejecuta un script Python; sin fork, todo
+  ese material pesa sobre el principal. Con fork, solo el resumen final
+  llega al principal. Es la misma motivación que con un subagente, pero
+  aplicada a un skill.
+
+- **Composición skill+subagente con loop techo=3**: el skill orquestador
+  `pre-commit-check` (nuevo en 3.2a) implementa un patrón
+  *validator → implementer*. Captura `git diff --cached`, invoca al
+  subagente `dotnet-reviewer` (Sonnet), lee la severidad clasificada,
+  aplica fixes con `Edit` si hay CRÍTICO, hace `git add` del fichero
+  arreglado y reitera. Techo de 3 iteraciones para evitar bucles
+  infinitos. Si tras 3 vueltas siguen los CRÍTICOS, devuelve al usuario.
+  Si solo hay ALTA/MEDIA, sale con éxito y avisa.
+
+Caso pedagógico de la 3.2a: en `demo/3.2a-before` se introdujo
+deliberadamente un `try { ... } catch (Exception ex) { Console.WriteLine }`
+en `CreateOrderHandler.cs` (prohibido por CLAUDE.md). El formador
+añade `context: fork` al skill `angular-component`, crea el skill
+`pre-commit-check`, lo ejecuta sobre el diff staged, y el loop con el
+`dotnet-reviewer` caza el catch genérico como CRÍTICO y propone
+revertir a excepción tipada. Tras aplicar el fix con `Edit`, la segunda
+iteración termina en `OK_CON_NOTAS`.

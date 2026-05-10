@@ -1,6 +1,7 @@
 ---
 name: angular-component
 description: Genera un componente Angular 19 standalone con Signals para OrderManagement. Usa plantillas en `assets/` y un script `scripts/generate.py` que normaliza el nombre y valida colisiones de carpeta. Activar cuando el usuario pida crear, generar o añadir un componente Angular nuevo (verbos "crea", "genera", "añade", "necesito un componente").
+context: fork
 ---
 
 # angular-component
