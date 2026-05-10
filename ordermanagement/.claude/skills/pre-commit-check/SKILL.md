@@ -50,36 +50,61 @@ NO usar para:
 
 ## Pasos al ejecutar
 
-1. **Capturar el diff staged**:
+0. **Setup del context bank**. Genera un `<sessionId>` con timestamp y
+   crea la carpeta `.claude/workflow-state/<sessionId>/`. Todos los
+   artefactos del workflow viven ahí — el `.gitignore` ya excluye
+   `.claude/workflow-state/` para que no contamine commits.
 
    ```!
-   git diff --cached
+   mkdir -p .claude/workflow-state
+   SESSION="$(date +%Y%m%d-%H%M%S)-pre-commit"
+   mkdir -p ".claude/workflow-state/$SESSION"
+   echo "$SESSION" > .claude/workflow-state/.last-session
    ```
 
-   Si no hay nada staged, abortar con un aviso al usuario.
+1. **Capturar el diff staged** y volcarlo a `INPUT.md`:
 
-2. **Invocar al subagente `dotnet-reviewer`** con el diff como input. El
-   subagente devuelve hallazgos en formato verbatim
-   `<severidad>: <fichero>:<línea>:<problema>:<fix>` y una línea de
-   resumen final con la `Recomendación`.
+   ```!
+   git diff --cached > ".claude/workflow-state/$SESSION/INPUT.md"
+   ```
 
-3. **Decidir según la recomendación**:
+   Si `INPUT.md` está vacío, abortar con un aviso al usuario.
+
+2. **Invocar al subagente `dotnet-reviewer`** indicándole que lea el
+   diff de `<sessionId>/INPUT.md` y escriba sus hallazgos en
+   `<sessionId>/REVIEW-N.md` (donde `N` es el contador de iteración,
+   empezando en 1). El reviewer mantiene el formato verbatim
+   `<severidad>: <fichero>:<línea>:<problema>:<fix>` y cierra con la
+   línea `Recomendación: ...`.
+
+3. **Decidir según la recomendación** (leyendo `REVIEW-N.md`):
 
    - `OK_CON_NOTAS` → loop termina con éxito. Mostrar al usuario los
-     hallazgos MEDIA/ALTA si los hay y proceder.
+     hallazgos MEDIA/ALTA si los hay y la ruta al context bank.
    - Hay `CRÍTICO` → aplicar fixes con `Edit`, hacer `git add` del
-     fichero arreglado, incrementar contador, repetir desde el paso 1.
-   - Si el contador llega a 3 sin que desaparezcan los CRÍTICOS, parar
-     y devolver al usuario el último reporte completo.
+     fichero arreglado, registrar lo aplicado en
+     `<sessionId>/FIXES-N.md`, incrementar `N` y repetir desde el
+     paso 1 (el nuevo diff staged se vuelca a `INPUT.md` otra vez).
+   - Si `N > 3` sin que desaparezcan los CRÍTICOS, parar y referenciar
+     `REVIEW-1..3.md` y `FIXES-1..N.md` para que el usuario decida.
 
 4. **Reportar al usuario** un resumen del loop:
    - Iteraciones realizadas.
    - Hallazgos resueltos.
    - Hallazgos pendientes (si los hay).
+   - Ruta del context bank: `.claude/workflow-state/<sessionId>/`.
    - Recomendación final.
 
 5. **NO ejecutar `git commit`**. Eso queda en manos del usuario tras leer
    el resumen.
+
+## Limpieza del context bank
+
+El context bank **no se limpia automáticamente**. El usuario decide:
+
+- Inspeccionarlo después del workflow para entender qué pasó.
+- Borrarlo cuando ya no lo necesita (`rm -rf .claude/workflow-state/<sessionId>/`).
+- Confiar en que `.gitignore` lo excluye de git.
 
 ## Por qué context: fork
 
