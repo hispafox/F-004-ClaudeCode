@@ -434,3 +434,6 @@ FodyWeavers.xsd
 # Claude Code (proyecto demo)
 ordermanagement/.claude/settings.local.json
 ordermanagement/.claude/cache/
+
+# Workflow state (context bank temporal de orquestaciones)
+ordermanagement/.claude/workflow-state/

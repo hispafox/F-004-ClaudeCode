@@ -4,6 +4,7 @@ using OrderManagement.Application.Commands;
 using OrderManagement.Application.Exceptions;
 using OrderManagement.Application.Queries;
 using OrderManagement.Domain.Entities;
+using OrderManagement.Domain.Enums;
 
 namespace OrderManagement.Api.Controllers;
 
@@ -19,6 +20,15 @@ public class OrdersController : ControllerBase
     public async Task<ActionResult<IReadOnlyList<Order>>> GetAll(CancellationToken ct)
     {
         var orders = await _mediator.Send(new GetOrdersQuery(), ct);
+        return Ok(orders);
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult<IReadOnlyList<Order>>> SearchByStatus(
+        [FromQuery] OrderStatus status,
+        CancellationToken ct)
+    {
+        var orders = await _mediator.Send(new SearchOrdersByStatusQuery(status), ct);
         return Ok(orders);
     }
 

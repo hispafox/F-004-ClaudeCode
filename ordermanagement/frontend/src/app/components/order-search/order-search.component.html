@@ -1,0 +1,13 @@
+<form (ngSubmit)="onSubmit()">
+  <label for="order-search-input">Search orders</label>
+  <input
+    id="order-search-input"
+    type="search"
+    name="searchTerm"
+    [ngModel]="searchTerm()"
+    (ngModelChange)="searchTerm.set($event)"
+    placeholder="Status (e.g. Pending)"
+    autocomplete="off"
+  />
+  <button type="submit">Search</button>
+</form>

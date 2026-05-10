@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OrderManagement.Application.Abstractions;
 using OrderManagement.Domain.Entities;
+using OrderManagement.Domain.Enums;
 using OrderManagement.Infrastructure.Persistence;
 
 namespace OrderManagement.Infrastructure.Repositories;
@@ -21,6 +22,13 @@ public class OrderRepository : IOrderRepository
         => await _db.Orders
             .Include(o => o.Items)
             .Include(o => o.Customer)
+            .ToListAsync(ct);
+
+    public async Task<IReadOnlyList<Order>> GetByStatusAsync(OrderStatus status, CancellationToken ct)
+        => await _db.Orders
+            .Include(o => o.Items)
+            .Include(o => o.Customer)
+            .Where(o => o.Status == status)
             .ToListAsync(ct);
 
     public async Task<int> AddAsync(Order order, CancellationToken ct)
