@@ -60,3 +60,27 @@ reales que obtenga.)
 En la demo 3.1b vamos a crear nuestro primer subagente custom: un
 `repo-explorer` para OrderManagement con su propio rol y su propio
 system prompt.
+
+---
+
+### Subagentes propios construidos en 3.1b
+
+- **`repo-explorer`** — modelo Haiku, tools `Read, Grep, Glob` (read-only).
+  Rol: explorador estructural del proyecto OrderManagement con foco en
+  capas. Devuelve resumen en cinco secciones (estructura, dependencias,
+  patrones detectados, anti-patrones emergentes, hallazgos accionables)
+  bajo 400 palabras. NUNCA escribe.
+
+- **`dotnet-reviewer`** — modelo Sonnet, tools `Read, Grep, Glob, Bash(git diff:*)`.
+  Rol: revisor crítico de código C#/.NET. Lee `git diff --cached` o
+  `git diff HEAD~1 HEAD`, clasifica hallazgos por severidad
+  (CRÍTICO / ALTA / MEDIA) con formato verbatim
+  `<severidad>: <fichero>:<línea>:<problema>:<fix>`. Cierra con
+  línea de resumen y recomendación (BLOQUEAR_PR / REVISAR / OK_CON_NOTAS).
+  NUNCA modifica código.
+
+Caso pedagógico de la 3.1b: en `demo/3.1b-before` se introdujo
+deliberadamente un `.Result` bloqueante en `CancelOrderHandler.cs`. El
+formador construye los dos subagentes en directo, ejecuta el
+`dotnet-reviewer` sobre el diff, lo caza como CRÍTICO, y aplica el fix
+revertiendo a `await`.

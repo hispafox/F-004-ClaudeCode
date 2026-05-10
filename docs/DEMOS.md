@@ -32,7 +32,7 @@ rama única `demo/X.Y` (los cambios del screencast se descartan al final).
 ## Módulo 3 — Agent harness
 
 - [x] **demo/3.1a** — Subagentes integrados: Explore, Plan, general-purpose (CONCEPTUAL, rama única)
-- [ ] demo/3.1b-before / demo/3.1b-after — Subagente custom: dotnet-reviewer
+- [x] **demo/3.1b-before / demo/3.1b-after** — Subagentes custom: repo-explorer y dotnet-reviewer
 - [ ] demo/3.2a-before / demo/3.2a-after — Orquestación: aislamiento, composición, loops
 - [ ] demo/3.2b-before / demo/3.2b-after — Memoria, paralelo, agent teams
 - [ ] demo/3.3a-before / demo/3.3a-after — Primer hook PostToolUse
