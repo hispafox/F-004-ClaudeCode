@@ -215,36 +215,38 @@ vamos construyendo a lo largo del módulo 3.3.
 
 ## Tarea 3: crear el handler con MAL FORMATO deliberado
 
-Crea `src/OrderManagement.Application/Handlers/RemoveItemHandler.cs` con
-formato malo (espacios sobrantes, indentación inconsistente):
+Crea `ordermanagement/src/OrderManagement.Application/Handlers/RemoveItemHandler.cs`
+con formato malo (espacios sobrantes, indentación inconsistente). Importante:
+**el código debe COMPILAR** — el mal formato no rompe el build. Solo la
+disposición del texto es fea:
 
 ```csharp
 using MediatR;
-using OrderManagement.Application.Interfaces;
+using OrderManagement.Application.Abstractions;
 using   OrderManagement.Application.Exceptions;
-using OrderManagement.Domain;
+using OrderManagement.Application.Commands;
 
 namespace OrderManagement.Application.Handlers;
 
 public  class RemoveItemHandler : IRequestHandler<RemoveItemCommand, Unit>
 {
-private readonly IOrderRepository _repository;
+private readonly IOrderRepository _orders;
 
-    public RemoveItemHandler(IOrderRepository repository)
+    public RemoveItemHandler(IOrderRepository orders)
 {
-        _repository = repository;
+        _orders = orders;
     }
 
-    public async Task<Unit> Handle(RemoveItemCommand request,CancellationToken cancellationToken){
-            var order = await _repository.GetByIdAsync(request.OrderId, cancellationToken)??throw new OrderNotFoundException(request.OrderId);
-order.RemoveItem(request.ProductId);
-        await _repository.SaveChangesAsync(cancellationToken);
+    public async Task<Unit> Handle(RemoveItemCommand request,CancellationToken ct){
+            var order = await _orders.GetByIdAsync(request.OrderId, ct)??throw new OrderNotFoundException(request.OrderId);
+order.Items.RemoveAll(i => i.Id == request.OrderItemId);
+        await _orders.UpdateAsync(order, ct);
         return Unit.Value;
     }
 }
 ```
 
-Y crea `src/OrderManagement.Application/Commands/RemoveItemCommand.cs`
+Y crea `ordermanagement/src/OrderManagement.Application/Commands/RemoveItemCommand.cs`
 (correcto, sin formato malo):
 
 ```csharp
@@ -252,15 +254,18 @@ using MediatR;
 
 namespace OrderManagement.Application.Commands;
 
-public record RemoveItemCommand(int OrderId, int ProductId) : IRequest<Unit>;
+public record RemoveItemCommand(int OrderId, int OrderItemId) : IRequest<Unit>;
 ```
 
 Verifica con `dotnet build` (debe pasar — el mal formato no rompe build) y commitea:
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
+dotnet build
+Set-Location c:\w\repos\F-004-ClaudeCode
 git add docs/hooks-explorados.md `
-        src/OrderManagement.Application/Handlers/RemoveItemHandler.cs `
-        src/OrderManagement.Application/Commands/RemoveItemCommand.cs
+        ordermanagement/src/OrderManagement.Application/Handlers/RemoveItemHandler.cs `
+        ordermanagement/src/OrderManagement.Application/Commands/RemoveItemCommand.cs
 git commit -m "demo/3.3a-before: artefactos preparatorios (hooks-explorados + handler mal formateado)"
 ```
 
@@ -335,23 +340,33 @@ Script bash con shebang `#!/bin/bash` que:
 
 ## Tarea 4: aplicar el formato al handler + marcar DEMOS.md + commit
 
-Ejecuta `dotnet format --include src/OrderManagement.Application/Handlers/RemoveItemHandler.cs`
+Desde `ordermanagement/`, ejecuta:
+
+```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
+dotnet format --include src/OrderManagement.Application/Handlers/RemoveItemHandler.cs
+```
+
 para arreglar el formato del handler que estaba mal en `-before`. El
 fichero queda formateado (equivalente a lo que el hook habría hecho).
 
 Marca la 3.3a en `docs/DEMOS.md`:
 
 ```
-- [x] **demo/3.3a** — Hooks: anatomía, eventos, y primer hook funcional
+- [x] **demo/3.3a-before / demo/3.3a-after** — Primer hook PostToolUse
 ```
 
 Verifica con `dotnet build` (0 warnings, 0 errors) y commit:
 
 ```powershell
-git add .claude/settings.json `
-        .claude/hooks/format-on-write.sh `
-        src/OrderManagement.Application/Handlers/RemoveItemHandler.cs `
-        docs/DEMOS.md
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
+dotnet build
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/.claude/settings.json `
+        ordermanagement/.claude/hooks/format-on-write.sh `
+        ordermanagement/src/OrderManagement.Application/Handlers/RemoveItemHandler.cs `
+        docs/DEMOS.md `
+        docs/hooks-explorados.md
 git commit -m "demo/3.3a-after: primer hook PostToolUse + auto-format aplicado"
 ```
 
