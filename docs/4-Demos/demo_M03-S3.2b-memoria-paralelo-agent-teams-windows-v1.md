@@ -195,90 +195,89 @@ Añade al final:
 
 Añade un endpoint sencillo de búsqueda de pedidos por estado.
 
-### a) En src/OrderManagement.Application/Queries/
+### a) En ordermanagement/src/OrderManagement.Application/Queries/
 
 Crear SearchOrdersByStatusQuery.cs:
 
 ```csharp
 using MediatR;
-using OrderManagement.Domain;
+using OrderManagement.Domain.Entities;
+using OrderManagement.Domain.Enums;
 
 namespace OrderManagement.Application.Queries;
 
-public record SearchOrdersByStatusQuery(string Status) : IRequest<List<Order>>;
+public record SearchOrdersByStatusQuery(OrderStatus Status) : IRequest<IReadOnlyList<Order>>;
 ```
 
-### b) En src/OrderManagement.Application/Handlers/
+### b) En ordermanagement/src/OrderManagement.Application/Handlers/
 
 Crear SearchOrdersByStatusHandler.cs:
 
 ```csharp
 using MediatR;
-using OrderManagement.Application.Interfaces;
+using OrderManagement.Application.Abstractions;
 using OrderManagement.Application.Queries;
-using OrderManagement.Domain;
+using OrderManagement.Domain.Entities;
 
 namespace OrderManagement.Application.Handlers;
 
-public class SearchOrdersByStatusHandler 
-    : IRequestHandler<SearchOrdersByStatusQuery, List<Order>>
+public class SearchOrdersByStatusHandler
+    : IRequestHandler<SearchOrdersByStatusQuery, IReadOnlyList<Order>>
 {
-    private readonly IOrderRepository _repository;
+    private readonly IOrderRepository _orders;
 
-    public SearchOrdersByStatusHandler(IOrderRepository repository)
+    public SearchOrdersByStatusHandler(IOrderRepository orders)
     {
-        _repository = repository;
+        _orders = orders;
     }
 
-    public async Task<List<Order>> Handle(
-        SearchOrdersByStatusQuery request, 
-        CancellationToken cancellationToken)
+    public Task<IReadOnlyList<Order>> Handle(
+        SearchOrdersByStatusQuery request,
+        CancellationToken ct)
     {
-        return await _repository.GetByStatusAsync(request.Status, cancellationToken);
+        return _orders.GetByStatusAsync(request.Status, ct);
     }
 }
 ```
 
-### c) En src/OrderManagement.Api/Controllers/OrdersController.cs
+### c) En ordermanagement/src/OrderManagement.Api/Controllers/OrdersController.cs
 
 Añadir el endpoint nuevo (mantén el resto del controller intacto):
 
 ```csharp
 [HttpGet("search")]
-public async Task<ActionResult<List<Order>>> SearchByStatus(
-    [FromQuery] string status,
-    CancellationToken cancellationToken)
+public async Task<IActionResult> SearchByStatus(
+    [FromQuery] OrderStatus status,
+    CancellationToken ct)
 {
-    var query = new SearchOrdersByStatusQuery(status);
-    var orders = await _mediator.Send(query, cancellationToken);
+    var orders = await _mediator.Send(new SearchOrdersByStatusQuery(status), ct);
     return Ok(orders);
 }
 ```
 
-### d) En src/OrderManagement.Application/Interfaces/IOrderRepository.cs
+### d) En ordermanagement/src/OrderManagement.Application/Abstractions/IOrderRepository.cs
 
-Añadir el método nuevo:
+Añadir el método nuevo (mantén los demás miembros intactos):
 
 ```csharp
-Task<List<Order>> GetByStatusAsync(string status, CancellationToken cancellationToken);
+Task<IReadOnlyList<Order>> GetByStatusAsync(OrderStatus status, CancellationToken ct);
 ```
 
-### e) En src/OrderManagement.Infrastructure/Repositories/OrderRepository.cs
+### e) En ordermanagement/src/OrderManagement.Infrastructure/Repositories/OrderRepository.cs
 
-Implementar el método:
+Implementar el método (sigue el estilo de `GetAllAsync`):
 
 ```csharp
-public async Task<List<Order>> GetByStatusAsync(
-    string status, 
-    CancellationToken cancellationToken)
+public async Task<IReadOnlyList<Order>> GetByStatusAsync(OrderStatus status, CancellationToken ct)
 {
     return await _context.Orders
+        .Include(o => o.Items)
         .Where(o => o.Status == status)
-        .ToListAsync(cancellationToken);
+        .ToListAsync(ct);
 }
 ```
 
-### f) En frontend/src/app/components/
+### f) En ordermanagement/frontend/src/app/components/
 
 Crear la carpeta order-search/ con un componente Angular standalone
 generado siguiendo el skill angular-component.
@@ -290,22 +289,23 @@ emitir el término de búsqueda.
 ## Tarea 4: verificar build y commitear todo
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 dotnet build
-cd frontend
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement\frontend
 npm run build
-cd ..
+Set-Location c:\w\repos\F-004-ClaudeCode
 ```
 
 Esperado: 0 warnings, 0 errors en ambos.
 
 ```powershell
 git add .gitignore `
-        src/OrderManagement.Application/Queries/SearchOrdersByStatusQuery.cs `
-        src/OrderManagement.Application/Handlers/SearchOrdersByStatusHandler.cs `
-        src/OrderManagement.Api/Controllers/OrdersController.cs `
-        src/OrderManagement.Application/Interfaces/IOrderRepository.cs `
-        src/OrderManagement.Infrastructure/Repositories/OrderRepository.cs `
-        frontend/src/app/components/order-search/
+        ordermanagement/src/OrderManagement.Application/Queries/SearchOrdersByStatusQuery.cs `
+        ordermanagement/src/OrderManagement.Application/Handlers/SearchOrdersByStatusHandler.cs `
+        ordermanagement/src/OrderManagement.Api/Controllers/OrdersController.cs `
+        ordermanagement/src/OrderManagement.Application/Abstractions/IOrderRepository.cs `
+        ordermanagement/src/OrderManagement.Infrastructure/Repositories/OrderRepository.cs `
+        ordermanagement/frontend/src/app/components/order-search/
 git commit -m "demo/3.2b-before: workflow-state en gitignore + endpoint search multi-fichero"
 ```
 
@@ -426,7 +426,13 @@ Añade a `docs/subagentes-explorados.md` una sección «### Cierre módulo 3.2 (
 Verifica con `dotnet build` (0 warnings, 0 errors) y commit:
 
 ```powershell
-git add .claude/skills .claude/agents docs/DEMOS.md docs/subagentes-explorados.md
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
+dotnet build
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/.claude/skills `
+        ordermanagement/.claude/agents `
+        docs/DEMOS.md `
+        docs/subagentes-explorados.md
 git commit -m "demo/3.2b-after: context bank en pre-commit-check + convention-checker + pre-pr-check paralelo"
 ```
 
