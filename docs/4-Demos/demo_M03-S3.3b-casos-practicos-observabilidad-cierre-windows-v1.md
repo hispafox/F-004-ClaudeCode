@@ -185,11 +185,12 @@ git checkout -b demo/3.3b-before
 
 ## Tarea 2: actualizar .gitignore
 
+El `.gitignore` del repo vive en la raíz (`F-004-ClaudeCode/.gitignore`).
 Añade al final, después de la entrada de workflow-state:
 
 ```
 # Logs de observabilidad (locales por dev, no van a git)
-.claude/logs/
+ordermanagement/.claude/logs/
 ```
 
 ## Tarea 3: crear docs/harness-completo.md
@@ -309,7 +310,9 @@ ahora" y reemplázala por:
 ## Tarea 5: verificar build y commitear
 
 ```powershell
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
 dotnet build
+Set-Location c:\w\repos\F-004-ClaudeCode
 ```
 
 Esperado: 0 warnings, 0 errors.
@@ -373,13 +376,13 @@ git checkout demo/3.3b-before
 git checkout -b demo/3.3b-after
 ```
 
-## Tarea 2: ampliar `.claude/settings.json` con el hook SessionEnd
+## Tarea 2: ampliar `ordermanagement/.claude/settings.json` con el hook SessionEnd
 
 Mantén intacta la sección `hooks` que ya viene de la 3.3a (PostToolUse
 format-on-write) y AÑADE un hook `SessionEnd` con handler `command` que
-ejecute `bash $CLAUDE_PROJECT_DIR/.claude/hooks/log-session.sh`.
+ejecute `bash .claude/hooks/log-session.sh`.
 
-## Tarea 3: crear `.claude/hooks/log-session.sh` + marcar DEMOS.md + commit
+## Tarea 3: crear `ordermanagement/.claude/hooks/log-session.sh` + marcar DEMOS.md + commit
 
 Script bash con shebang `#!/bin/bash` que:
 - Crea `.claude/logs/` si no existe (`mkdir -p`).
@@ -392,13 +395,18 @@ Script bash con shebang `#!/bin/bash` que:
 Marca la 3.3b en `docs/DEMOS.md`:
 
 ```
-- [x] **demo/3.3b** — Bloqueo de peligrosos, observabilidad, cierre módulo 3
+- [x] **demo/3.3b-before / demo/3.3b-after** — Hooks completos
 ```
 
 Verifica con `dotnet build` (0 warnings, 0 errors) y commit:
 
 ```powershell
-git add .claude/settings.json .claude/hooks/log-session.sh docs/DEMOS.md
+Set-Location c:\w\repos\F-004-ClaudeCode\ordermanagement
+dotnet build
+Set-Location c:\w\repos\F-004-ClaudeCode
+git add ordermanagement/.claude/settings.json `
+        ordermanagement/.claude/hooks/log-session.sh `
+        docs/DEMOS.md
 git commit -m "demo/3.3b-after: hook SessionEnd con log-session + cierre módulo 3"
 ```
 
